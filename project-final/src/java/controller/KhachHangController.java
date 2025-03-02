@@ -59,6 +59,8 @@ public class KhachHangController extends HttpServlet {
             plusonecart(request, response);
         } else if(hanhdong.equals("deleteproductoutcart")){
             deleteproductoutcart(request, response);
+        }else if(hanhdong.equals("buynow")){
+            
         }
 
     }
@@ -466,15 +468,21 @@ public class KhachHangController extends HttpServlet {
             if (obj != null) {
                 kh = (KhachHang) obj;
             }
-
+            
+           
             String error = "";
             String url = "";
 
             if (kh == null) {
                 url = "/khachhang/login.jsp";
             } else {
+                String defalutSize = "M";
+            String size = request.getParameter("size");
+            if(size!=null && !size.isEmpty()){
+                defalutSize = size;
+            }
                 String masanpham = request.getParameter("masanpham");
-                GioHang gioHang = new GioHang(kh.getMaKhachHang(), masanpham, "M", 1);
+                GioHang gioHang = new GioHang(kh.getMaKhachHang(), masanpham, defalutSize, 1);
 
                 GioHangDAO dao = new GioHangDAO();
                 dao.insert(gioHang);
@@ -613,5 +621,7 @@ public class KhachHangController extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+    
 
 }

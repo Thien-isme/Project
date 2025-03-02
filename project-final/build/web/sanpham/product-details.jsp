@@ -163,37 +163,41 @@
 
                                 <hr />
 
-                                <div class="row mb-4">
-                                    <div class="col-md-4 col-6">
+                                <form class="row mb-4" action="<%=url%>/khach-hang" method="get">
+                                    <input name="masanpham" value="<%=sp1.getMasanpham()%>">
+                                    <div class=" col-12">
                                         <label class="mb-2">Size</label>
-                                        <select class="form-select border border-secondary" style="height: 35px;" name="choosesize">
+                                        <select class="form-select border border-secondary" style="width: 65px" name="size">
                                             <option value="S">S</option>
                                             <option value="M">M</option>
                                             <option value="L">L</option>
                                         </select>
                                     </div>
                                     <!-- col.// -->
-
-                                </div>
-                                <div class=" row ">
-                                    <form action="/khach-hang" method="get" class="form-inline col-2 py-0">
-                                        <div class="form-group">
-                                            <input name="hanhdong" value="buy-now" type="hidden">
-                                            <button type="submit" class="btn btn-warning mb-2">Buy Now</button>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-3">
+                                                         
+                                            <button  type="submit" name="hanhdong" value="buynow" class="btn btn-warning mb-2">Buy Now</button>
                                         </div>
-                                    </form>
-                                    <form action="/khach-hang" method="get" class="form-inline col-9">
-                                        <div class="form-group">
-                                            <input name="hanhdong" value="addtocarffromdetails" type="hidden">
-                                            <button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
+
+                                        <div class="form-group col-5">
+                                            
+                                            <button type="submit" name="hanhdong" value="addtocart" class="btn btn-primary mb-2">Add to Cart</button>
                                         </div>
-                                    </form>
+                                    </div>
+
+                                </form>
 
 
-                                    <!--<a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>-->
 
-                                    <!--<a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>-->
-                                </div>
+
+
+
+                                <!--<a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>-->
+
+                                <!--<a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>-->
+                                </form>
+
                         </main>
                     </div>
                 </div>

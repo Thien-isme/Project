@@ -390,47 +390,50 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\r\n");
       out.write("\r\n");
       out.write("            <div class=\"row\">\r\n");
-      out.write("                <div  class=\"col-1\">\r\n");
       out.write("\r\n");
-      out.write("\r\n");
-      out.write("                </div>  \r\n");
+      out.write("                ");
 
-    MaGiamGiaDAO maGiamGiaDAO = new MaGiamGiaDAO();
-    List<MaGiamGia> listMaGiamGia = maGiamGiaDAO.selectAll();
+                    MaGiamGiaDAO maGiamGiaDAO = new MaGiamGiaDAO();
+                    List<MaGiamGia> listMaGiamGia = maGiamGiaDAO.selectAll();
 
-    if (listMaGiamGia != null && !listMaGiamGia.isEmpty()) {
-        for (MaGiamGia maGiamGia : listMaGiamGia) {
-
+                    if (listMaGiamGia != null && !listMaGiamGia.isEmpty()) {
+                        for (MaGiamGia maGiamGia : listMaGiamGia) {
+                
       out.write("   \r\n");
-      out.write("                <div  class=\"col-3\">\r\n");
-      out.write("                    <div class=\"card-item  \">\r\n");
-      out.write("                        <img class=\"card-img\" alt=\"anh voucher\" src=\"");
+      out.write("               <!-- <div  class=\"col-1\"> </div> -->\r\n");
+      out.write("                <div  class=\"col-3 row\">\r\n");
+      out.write("                    <div class=\"card-item\">\r\n");
+      out.write("                        <img class=\"card-img row \" alt=\"anh voucher\" src=\"");
       out.print(url1);
-      out.write("/GUI/imgvoucher/voucher.png\">\r\n");
-      out.write("                        <div class=\"card-body\">\r\n");
-      out.write("                            <p style=\"font-size: 24px;font-weight: 500 \" class=\"card-title\">ghfscssbdfbdfhddfsdfsdf</p>\r\n");
-      out.write("                            <p class=\"card-text\"> <h5>EXP: <small class=\"text-muted\">529651521</small></h5> </p>\r\n");
+      out.write("/GUI/imgvoucher/");
+      out.print(maGiamGia.getHinhanhvoucher());
+      out.write("\">\r\n");
+      out.write("                        <div class=\"card-body row\">\r\n");
+      out.write("                            <p style=\"font-size: 24px;font-weight: 500 \" class=\"card-title\">");
+      out.print(maGiamGia.getTenMaGiamGia());
+      out.write("</p>\r\n");
+      out.write("                            <p class=\"card-text\"> <h5>EXP: <small class=\"text-muted\">");
+      out.print(maGiamGia.getNgayHetHan());
+      out.write("</small></h5> </p>\r\n");
       out.write("                        </div>\r\n");
-      out.write("                        <form class=\"card-getvalue\" action=\"\">\r\n");
-      out.write("                            <button class=\"btn btn-primary getValue\">Get</button>\r\n");
-      out.write("                        </form>\r\n");
+      out.write("                        \r\n");
       out.write("                    </div>\r\n");
-      out.write("\r\n");
+      out.write("<form class=\"card-getvalue\" action=\"#\" method=\"post\">\r\n");
+      out.write("                            <!--<button class=\"btn btn-primary getValue\">Get</button>-->\r\n");
+      out.write("                            <input class=\"btn btn-primary\" value=\"Get\" >\r\n");
+      out.write("                        </form>\r\n");
       out.write("                </div>\r\n");
       out.write("\r\n");
-      out.write("                <div  class=\"col-2\">\r\n");
-      out.write("\r\n");
-      out.write("\r\n");
-      out.write("                </div>\r\n");
-      out.write(" ");
+      out.write("                <!--<div  class=\"col-2\"></div>-->\r\n");
+      out.write("                ");
 
-        }
-    }
-
+                        }
+                    }
+                
       out.write("              \r\n");
-      out.write("                        \r\n");
-      out.write("                        \r\n");
-      out.write("                        \r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
       out.write("            </div>\r\n");
       out.write("\r\n");
       out.write("            <!-- end gift section -->\r\n");
