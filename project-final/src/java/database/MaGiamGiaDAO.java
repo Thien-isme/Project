@@ -25,7 +25,9 @@ public class MaGiamGiaDAO implements DAOInterface<MaGiamGia> {
                         rs.getString("idMaGiamGia"),
                         rs.getString("tenMaGiamGia"),
                         rs.getString("tiLeGiam"),
-                        rs.getString("ngayHetHan")
+                        rs.getString("ngayHetHan"),
+                        rs.getInt("soluong"),
+                        rs.getString("hinhanhvoucher")
                 );
                 list.add(mg);
             }

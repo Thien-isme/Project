@@ -6,6 +6,8 @@ public class MaGiamGia {
     private String tenMaGiamGia;
     private String tiLeGiam;
     private String ngayHetHan;
+    private int soLuong;
+    private String hinhanhvoucher;
 
     public MaGiamGia(String idMaGiamGia, String tenMaGiamGia, String tiLeGiam, String ngayHetHan) {
         this.idMaGiamGia = idMaGiamGia;
@@ -13,6 +15,17 @@ public class MaGiamGia {
         this.tiLeGiam = tiLeGiam;
         this.ngayHetHan = ngayHetHan;
     }
+
+    public MaGiamGia(String idMaGiamGia, String tenMaGiamGia, String tiLeGiam, String ngayHetHan, int soLuong, String hinhanhvoucher) {
+        this.idMaGiamGia = idMaGiamGia;
+        this.tenMaGiamGia = tenMaGiamGia;
+        this.tiLeGiam = tiLeGiam;
+        this.ngayHetHan = ngayHetHan;
+        this.soLuong = soLuong;
+        this.hinhanhvoucher = hinhanhvoucher;
+    }
+    
+    
 
     public String getIdMaGiamGia() {
         return idMaGiamGia;
@@ -45,6 +58,23 @@ public class MaGiamGia {
     public void setNgayHetHan(String ngayHetHan) {
         this.ngayHetHan = ngayHetHan;
     }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public String getHinhanhvoucher() {
+        return hinhanhvoucher;
+    }
+
+    public void setHinhanhvoucher(String hinhanhvoucher) {
+        this.hinhanhvoucher = hinhanhvoucher;
+    }
+    
     
     
 

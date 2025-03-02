@@ -3,6 +3,8 @@ package org.apache.jsp.GUI;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import model.MaGiamGia;
+import database.MaGiamGiaDAO;
 import model.SanPham;
 import java.util.List;
 import database.SanPhamDAO;
@@ -50,6 +52,8 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
+      out.write("\r\n");
+      out.write("\r\n");
       out.write("\r\n");
       out.write("\r\n");
       out.write("\r\n");
@@ -301,7 +305,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <!-- end slider section -->\r\n");
       out.write("\r\n");
       out.write("\r\n");
-      out.write("            \r\n");
+      out.write("\r\n");
       out.write("            <!-- shop section -->\r\n");
       out.write("\r\n");
       out.write("            <section class=\"shop_section layout_padding\">\r\n");
@@ -382,25 +386,52 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <!-- end shop section -->\r\n");
       out.write("\r\n");
       out.write("            <!-- gift section -->\r\n");
-      out.write("            <section class=\"gift_section layout_padding-bottom\">\r\n");
-      out.write("                <h1 style=\"text-align: center\">Voucher for you</h1>\r\n");
-      out.write("                <div card-container>\r\n");
-      out.write("                    <div class=\"card-item \">\r\n");
+      out.write("            ");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("            <div class=\"row\">\r\n");
+      out.write("                <div  class=\"col-1\">\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("                </div>  \r\n");
+
+    MaGiamGiaDAO maGiamGiaDAO = new MaGiamGiaDAO();
+    List<MaGiamGia> listMaGiamGia = maGiamGiaDAO.selectAll();
+
+    if (listMaGiamGia != null && !listMaGiamGia.isEmpty()) {
+        for (MaGiamGia maGiamGia : listMaGiamGia) {
+
+      out.write("   \r\n");
+      out.write("                <div  class=\"col-3\">\r\n");
+      out.write("                    <div class=\"card-item  \">\r\n");
       out.write("                        <img class=\"card-img\" alt=\"anh voucher\" src=\"");
       out.print(url1);
       out.write("/GUI/imgvoucher/voucher.png\">\r\n");
       out.write("                        <div class=\"card-body\">\r\n");
-      out.write("                            <p style=\"font-size: 24px;font-weight: 500 \" class=\"card-title\">Giảm 25% cho đơn hàng từ 100k</p>\r\n");
-      out.write("                            <p class=\"card-text\"> <h5>EXP: <small class=\"text-muted\">15-02-2025</small></h5> </p>\r\n");
+      out.write("                            <p style=\"font-size: 24px;font-weight: 500 \" class=\"card-title\">ghfscssbdfbdfhddfsdfsdf</p>\r\n");
+      out.write("                            <p class=\"card-text\"> <h5>EXP: <small class=\"text-muted\">529651521</small></h5> </p>\r\n");
       out.write("                        </div>\r\n");
-      out.write("                        <form class=\"card-getvalue\" action=\"chuaCoHanhDong\">\r\n");
+      out.write("                        <form class=\"card-getvalue\" action=\"\">\r\n");
       out.write("                            <button class=\"btn btn-primary getValue\">Get</button>\r\n");
       out.write("                        </form>\r\n");
       out.write("                    </div>\r\n");
       out.write("\r\n");
       out.write("                </div>\r\n");
-      out.write("            </section>\r\n");
       out.write("\r\n");
+      out.write("                <div  class=\"col-2\">\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("                </div>\r\n");
+      out.write(" ");
+
+        }
+    }
+
+      out.write("              \r\n");
+      out.write("                        \r\n");
+      out.write("                        \r\n");
+      out.write("                        \r\n");
+      out.write("            </div>\r\n");
       out.write("\r\n");
       out.write("            <!-- end gift section -->\r\n");
       out.write("\r\n");
