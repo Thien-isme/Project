@@ -72,17 +72,17 @@
                                 </div>
                             </div>
 
-                            <% 
+                            <%
                                 // Lấy các sản phẩm trong giỏ hàng của IDKhachHang
                                 GioHangDAO dao = new GioHangDAO();
                                 List<GioHang> list = new ArrayList<GioHang>();
                                 list = dao.selectGioHangCuaKhachHang(khachHang.getMaKhachHang());
                                 if (list != null && !list.isEmpty()) {
-                                        for (GioHang gioHang : list) {
-                                            
-                                                SanPhamDAO sanPhamDao = new SanPhamDAO();
-                                                SanPham sp = sanPhamDao.selectById(gioHang.getMasanpham());
-                                                System.out.println("sp = " +sp.toString());
+                                    for (GioHang gioHang : list) {
+
+                                        SanPhamDAO sanPhamDao = new SanPhamDAO();
+                                        SanPham sp = sanPhamDao.selectById(gioHang.getMasanpham());
+                                        System.out.println("sp = " + sp.toString());
                             %>
                             <div class="card rounded-3 mb-4">
                                 <div class="card-body p-4">
@@ -93,25 +93,25 @@
                                                 class="img-fluid rounded-3" alt="Cotton T-shirt">
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-3">
-                                            <p class="lead fw-normal mb-2"><%= gioHang.getMasanpham() %></p>
-                                            <p><span class="text-muted">Size: </span> <%=gioHang.getSize()%> <span class="text-muted">Color: </span><%= sp.getMausac() %></p>
+                                            <p class="lead fw-normal mb-2"><%= gioHang.getMasanpham()%></p>
+                                            <p><span class="text-muted">Size: </span> <%=gioHang.getSize()%> <span class="text-muted">Color: </span><%= sp.getMausac()%></p>
                                         </div>
 
-                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
-                                                <div class="d-flex align-items-center" style="width: 120px;">
-                                                    <a href="<%=url%>/khach-hang?hanhdong=minusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>"> <i class="fas fa-minus" style="color: black"></i></a>
-                                                    <h6 style="margin: 0px 8px 0px 8px"><%= gioHang.getSoluong() %></h6>
-<!--                                                    <input type="number" class="form-control form-control-sm text-center" 
-                                                           value="<%= gioHang.getSoluong() %>" min="1" style="width: 50px; padding: 2px;">-->
-                                                    <a href="<%=url%>/khach-hang?hanhdong=plusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>"><i class="fas fa-plus" style="color: black"></i></a>
-                                                </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+                                            <div class="d-flex align-items-center" style="width: 120px;">
+                                                <a href="<%=url%>/khach-hang?hanhdong=minusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>"> <i class="fas fa-minus" style="color: black"></i></a>
+                                                <h6 style="margin: 0px 8px 0px 8px"><%= gioHang.getSoluong()%></h6>
+                                                <!--                                                    <input type="number" class="form-control form-control-sm text-center" 
+                                                                                                           value="<%= gioHang.getSoluong()%>" min="1" style="width: 50px; padding: 2px;">-->
+                                                <a href="<%=url%>/khach-hang?hanhdong=plusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>"><i class="fas fa-plus" style="color: black"></i></a>
                                             </div>
+                                        </div>
 
 
 
 
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h5 class="mb-0">$<%= Money.getMoney(sp.getGiaban())  %></h5>
+                                            <h5 class="mb-0">$<%= Money.getMoney(sp.getGiaban())%></h5>
                                         </div>
                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                             <a href="<%=url%>/khach-hang?hanhdong=deleteproductoutcart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>" class="text-danger"><i class="fas fa-trash fa-lg" style="color: black"></i></a>
@@ -119,29 +119,29 @@
                                     </div>
                                 </div>
                             </div>
+
                             <%
                                     }
                                 }
                             } else {
 
                             %>
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h3 class="fw-normal mb-0">Empty</h3>
+                            <div class="d-flex justify-content-center align-items-center mb-4">
+                                <h3 class="fw-normal mb-0">Empty cart</h3>
                             </div>
                             <%}%>
                             <div class="card">
                                 <div class="card-body">
-                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
-                                             data-mdb-ripple-color="dark" class="btn btn-outline-dark">Check out</button>
+<!--                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
+                                             data-mdb-ripple-color="dark" class="btn btn-outline-dark"><a href="<%= url%>/khachhang/checkout.jsp">Check out</a></button>-->
+<a href="<%= url%>/khachhang/checkout.jsp">Check out</a>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </section>
-            
+
             <!-- end  section -->
 
             <script src="<%= url1%>/GUI/js/jquery-3.4.1.min.js"></script>

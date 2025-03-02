@@ -287,4 +287,37 @@ public class GioHangDAO implements DAOInterface<GioHang> {
 
     }
 
+    public GioHang selectByMaSanPham(String string) {
+        String sql = "SELECT * FROM giohang WHERE masanpham = ? ";
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        GioHang result = null;
+        try {
+            // 1. Lấy kết nối
+            conn = JDBCUtil.getConnection();
+            // 2. Tạo PreparedStatement
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, string);
+            // 3. Thực thi truy vấn
+            rs = stmt.executeQuery();
+            // 4. Xử lý kết quả
+            while (rs.next()) {
+                result = new GioHang(
+                        rs.getString("makhachhang"),
+                        rs.getString("masanpham"),
+                        rs.getString("size"),
+                        rs.getInt("soluong")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 5. Đóng tài nguyên
+            JDBCUtil.close(conn);
+        }
+        return result;
+    }
+
 }
