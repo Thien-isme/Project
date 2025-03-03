@@ -11,6 +11,7 @@ import database.GioHangDAO;
 import database.SanPhamDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -52,74 +53,71 @@ public class DonHangController extends HttpServlet {
     }
 
     private void saveDonHang(HttpServletRequest request, HttpServletResponse response) {
-        String url = "/GUI/index.jsp";
-        DonHang dh = null;
-
-        String makhachhang = request.getParameter("makhachhang");
-        String fullname = request.getParameter("fullname");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String quocgia = request.getParameter("quocgia");
-        String delivery = request.getParameter("delivery");
-        String paymentMethod = request.getParameter("paymentMethod");
-        String soluongsanphamstr = request.getParameter("soluongsanpham");
-        int soluongsanpham = Integer.parseInt(soluongsanphamstr);
-
-        String trangthaidonhang = "Da dat hang";
-        String trangthaithanhtoan = "Chua thanh toan";
-        double tienvanchuyen = 30;
-        int vat = 5;
-
-        List<String> sanphamList = new ArrayList<>();
-
-        for (int i = 1; i <= soluongsanpham + 1; i++) {
-            String sanpham = request.getParameter("sanpham" + i);
-            if (sanpham != null) {
-                sanphamList.add(sanpham);
-            }
-        }
 
         try {
-            HttpSession session = request.getSession();
-            // Tạo ra mã don hang
-            Random rd = new Random();
-            String madonhang = System.currentTimeMillis() + rd.nextInt(1000) + "";
+            String hanhDong = request.getParameter("hanhdong");
+            String maKhachHang = request.getParameter("makhachhang");
+            String fullName = request.getParameter("fullname");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String quocGia = request.getParameter("quocgia");
+            String deliveryaddress = request.getParameter("deliveryaddress");
+            String paymentMethod = request.getParameter("paymentMethod");
+            String voucher = request.getParameter("voucher");
+            String ship = request.getParameter("ship");
+            String total = request.getParameter("total");
+            String soLuongSanPham = request.getParameter("soluongsanpham");
 
-            for (String string : sanphamList) {
-                GioHangDAO ghd = new GioHangDAO();
-                GioHang temp = ghd.selectByMaSanPham(string);
+            List<SanPham> productList = new ArrayList<>();
 
-                SanPhamDAO sanPhamDAO = new SanPhamDAO();
-                SanPham sp = sanPhamDAO.selectById(temp.getMasanpham());
-
-                double tongtienSanPham = temp.getSoluong() * sp.getGiaban();
-
-                double vatAmount = tongtienSanPham * (vat / 100);
-                double total = tongtienSanPham + ((double) tongtienSanPham * 0.05);
-
-                DonHangDAO dhd = new DonHangDAO();
-                dh = new DonHang(madonhang, makhachhang, temp.getMasanpham());
-                dhd.insert(dh);
-
-                ChiTietDonHang ctdh = new ChiTietDonHang(madonhang, temp.getMasanpham(), trangthaidonhang, paymentMethod, trangthaithanhtoan,
-                        Time.getTimeNow(), Time.timeNowPlus_X_minutes(7200), soluongsanphamstr, temp.getSoluong(), tienvanchuyen, vat, total);
-
-                ChiTietDonHangDAO ctdhdao = new ChiTietDonHangDAO();
-
-                if (ctdhdao.insert(ctdh) > 0) {
-                    url = "/khachhang/checkoutdetails.jsp";
+            for (int i = 1;; i++) {
+                String maSanPham = request.getParameter("sanpham" + i);
+                if (maSanPham == null) {
+                    break; // Dừng khi không còn sản phẩm
                 }
-                ghd.deleteproductoutcart(temp);
-                request.setAttribute("madonhang", madonhang);
+                String size = request.getParameter("sizesanpham" + i);
+                String soLuong = request.getParameter("soluongsanpham" + i);
+                String giaTien = request.getParameter("giatiensanpham" + i);
+
+                SanPham sp = new SanPham(maSanPham, size, soLuong, giaTien);
+                productList.add(sp);
             }
 
+            for (SanPham sanPham : productList) {
+                Random rd = new Random();
+                // Thêm vào bảng đơn hàng trước
+                String madonhang = System.currentTimeMillis() + rd.nextInt(1000) + "";
+                DonHangDAO donHangDAO = new DonHangDAO();
+                donHangDAO.insert(new DonHang(madonhang, maKhachHang, sanPham.getMasanpham()));
+
+                // Thêm vào bảng chitietdonhang
+                ChiTietDonHangDAO chiTietDonHangDAO = new ChiTietDonHangDAO();
+                ChiTietDonHang chiTietDonHang = new ChiTietDonHang(madonhang, sanPham.getMasanpham(), "Chờ Xử Lý", paymentMethod, Time.getTimeNow(), Time.timeNowPlus_X_minutes(7200), deliveryaddress, Integer.parseInt(sanPham.getSoluong())  , Double.parseDouble(ship), 10, voucher, Double.parseDouble(total));
+
+//                ChiTietDonHang chiTietDonHang = new ChiTietDonHang(madonhang, sanPham.getMasanpham(), "Chờ Xử Lý", paymentMethod, Time.getTimeNow(), Time.timeNowPlus_X_minutes(7200)+"", deliveryaddress, sanPham.getSoluong(), ship, voucher, total);
+                int soluongdongthaydoi = chiTietDonHangDAO.insert(chiTietDonHang);
+
+                // Giamr số lượng sản phẩm lại
+                SanPhamDAO sanPhamDAO = new SanPhamDAO();
+                sanPhamDAO.minusPoduct(sanPham.getMasanpham(), sanPham.getKichco(), sanPham.getSoluong());
+
+                // Nếu khách hàng có Login thì xóa khỏi giỏ hành
+                GioHangDAO gioHangDAO = new GioHangDAO();
+                gioHangDAO.updateAfterPay(new GioHang(maKhachHang, sanPham.getMasanpham(), sanPham.getKichco(), sanPham.getSoluong()));
+                String url = "";
+                if (soluongdongthaydoi > 0) {
+                    url = "/GUI/index.jsp";
+                }else{
+                    url = "/khachhang/shop.jsp";
+                }
+                
+                request.setAttribute("madonhang", madonhang);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (Exception e) {
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -163,7 +161,7 @@ public class DonHangController extends HttpServlet {
 
     private void chuyenquacheckout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-//        List(G)
+
     }
 
 }

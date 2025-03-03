@@ -395,4 +395,31 @@ public class SanPhamDAO implements DAOInterface<SanPham> {
         return sanPham;
     }
 
+    public int minusPoduct(String masanpham, String size, Integer soluong) {
+        int rs = 0;
+        SanPham sanPham = null;
+        String sql = " update sanpham_size \n"
+                + " set soluong = soluong - ? \n"
+                + " where masanpham = ?  AND size = ?";
+        try {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            
+
+            conn = JDBCUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, masanpham);
+            stmt.setString(2, size);
+            stmt.setInt(3, soluong);
+            rs = stmt.executeUpdate();
+
+            JDBCUtil.close(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rs;
+
+    }
+
 }

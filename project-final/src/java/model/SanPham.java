@@ -63,6 +63,10 @@ public class SanPham {
         this.giamgia = giamgia;
    
     }
+
+    public SanPham(String maSanPham, String size, String soLuong, String giaTien) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 
