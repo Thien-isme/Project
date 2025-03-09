@@ -1,4 +1,6 @@
 
+<%@page import="model.Item"%>
+<%@page import="model.Order"%>
 <%@page import="utils.Money"%>
 <%@page import="model.GioHang"%>
 <%@page import="java.util.ArrayList"%>
@@ -75,36 +77,46 @@
 
                             <%
                                 // Lấy các sản phẩm trong giỏ hàng của IDKhachHang
-                                GioHangDAO dao = new GioHangDAO();
-                                List<GioHang> list = new ArrayList<GioHang>();
-                                list = dao.selectGioHangCuaKhachHang(khachHang.getMaKhachHang());
-                                if (list != null && !list.isEmpty()) {
-                                    for (GioHang gioHang : list) {
+//                                GioHangDAO dao = new GioHangDAO();
+//                                List<GioHang> list = new ArrayList<GioHang>();
+//                                list = dao.selectGioHangCuaKhachHang(khachHang.getMaKhachHang());
 
-                                        SanPhamDAO sanPhamDao = new SanPhamDAO();
-                                        SanPham sp = sanPhamDao.selectById(gioHang.getMasanpham());
-                                        System.out.println("sp = " + sp.toString());
+//                                List<GioHang> list = (List<GioHang>) request.getAttribute("list");
+                                Order order = (Order) session.getAttribute("order");
+                                
+                                String error = request.getAttribute("error")+"";
+//                                error = "Sản phẩm đã vượt quá số lượng trong kho";
+                                error = error.equals("null")?"":error;
+                                    List<Item> list = order.getList();
+                                    if (list != null && !list.isEmpty()) {
+                                        for (Item item : list) {
+                                            SanPham gioHang = item.getSanpham();
+//                                        SanPhamDAO sanPhamDao = new SanPhamDAO();
+//                                        SanPham sp = sanPhamDao.selectById(gioHang.getMasanpham());
+                                            System.out.println("sp = " + gioHang.toString());
                             %>
+                            <!--<h1>Helooooooooooooooooooooooooo</h1>-->
                             <div class="card rounded-3 mb-4">
                                 <div class="card-body p-4">
                                     <div class="row d-flex justify-content-between align-items-center">
                                         <div class="col-md-2 col-lg-2 col-xl-2">
                                             <img
-                                                src="<%= url1%>/GUI/imgsanpham/<%=sp.getHinhanhsanpham()%>"
+                                                src="<%= url1%>/GUI/imgsanpham/<%=gioHang.getHinhanhsanpham()%>"
                                                 class="img-fluid rounded-3" alt="Cotton T-shirt">
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                             <p class="lead fw-normal mb-2"><%= gioHang.getMasanpham()%></p>
-                                            <p><span class="text-muted">Size: </span> <%=gioHang.getSize()%> <span class="text-muted">Color: </span><%= sp.getMausac()%></p>
+                                            <p><span class="text-muted">Size: </span> <%=gioHang.getKichco()%> <span class="text-muted">Color: </span><%= gioHang.getMausac()%></p>
+                                            <span class="red"><%=error%></span>
                                         </div>
 
                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
                                             <div class="d-flex align-items-center" style="width: 120px;">
-                                                <a href="<%=url%>/khach-hang?hanhdong=minusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>"> <i class="fas fa-minus" style="color: black"></i></a>
-                                                <h6 style="margin: 0px 8px 0px 8px"><%= gioHang.getSoluong()%></h6>
+                                                <a href="<%=url%>/khach-hang?hanhdong=minusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getKichco()%>"> <i class="fas fa-minus" style="color: black"></i></a>
+                                                <h6 style="margin: 0px 8px 0px 8px"><%= item.getSoluong()%></h6>
                                                 <!--                                                    <input type="number" class="form-control form-control-sm text-center" 
-                                                                                                           value="<%= gioHang.getSoluong()%>" min="1" style="width: 50px; padding: 2px;">-->
-                                                <a href="<%=url%>/khach-hang?hanhdong=plusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>"><i class="fas fa-plus" style="color: black"></i></a>
+                                                                                                           value="<%= item.getSoluong()%>" min="1" style="width: 50px; padding: 2px;">-->
+                                                <a href="<%=url%>/khach-hang?hanhdong=plusonecart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getKichco()%>"><i class="fas fa-plus" style="color: black"></i></a>
                                             </div>
                                         </div>
 
@@ -112,18 +124,18 @@
 
 
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h5 class="mb-0">$<%= Money.getMoney(sp.getGiaban())%></h5>
+                                            <h5 class="mb-0">$<%= Money.getMoney(gioHang.getGiaban())%></h5>
                                         </div>
                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                            <a href="<%=url%>/khach-hang?hanhdong=deleteproductoutcart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getSize()%>" class="text-danger"><i class="fas fa-trash fa-lg" style="color: black"></i></a>
+                                            <a href="<%=url%>/khach-hang?hanhdong=deleteproductoutcart&masanpham=<%=gioHang.getMasanpham()%>&size=<%=gioHang.getKichco()%>" class="text-danger"><i class="fas fa-trash fa-lg" style="color: black"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <%
+                                        }
                                     }
-                                }
                             } else {
 
                             %>
@@ -133,15 +145,13 @@
                             <%}%>
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="<%= url %>/khachhang/checkout.jsp?action=buynow" method="post">
-                                        
+                                    <form action="<%=url%>/khach-hang" method="post">
+                                        <input name="hanhdong" value="checkout">
                                         <input type="submit" class="btn btn-primary" value ="Check out" >
                                     </form>
-                                    <a href="<%= url %>/khachhang/checkout.jsp?action=buynow" class="nav-link mb-1">
-                                                    dsfsdfsdf
-                                                </a>
-<!--                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
-                                             data-mdb-ripple-color="dark" class="btn btn-outline-dark"><a href="<%= url%>/khachhang/checkout.jsp">Check out</a></button>-->
+                              
+                                    <!--                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
+                                                                                 data-mdb-ripple-color="dark" class="btn btn-outline-dark"><a href="<%= url%>/khachhang/checkout.jsp">Check out</a></button>-->
 
                                 </div>
                             </div>

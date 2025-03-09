@@ -1,3 +1,5 @@
+<%@page import="model.Item"%>
+<%@page import="model.Order"%>
 <%@page import="utils.Money"%>
 <%@page import="model.DonHang"%>
 <%@page import="database.ChiTietDonHangDAO"%>
@@ -58,13 +60,7 @@
         <div class=" container-fluid my-5 ">
             <%@include file="../GUI/header.jsp" %>
 
-            <%            GioHangDAO dao = new GioHangDAO();
-                List<GioHang> list = new ArrayList<GioHang>();
 
-                list = dao.selectGioHangCuaKhachHang(khachHang.getMaKhachHang());
-                double subtotal = 0.0;
-
-            %>
             <form action="<%= url%>/don-hang" method="GET">
                 <input type="hidden" name="hanhdong" value="saveDonHang">
                 <input type="text" name="makhachhang" value="<%= khachHang.getMaKhachHang()%>">
@@ -164,18 +160,23 @@
 
                                         <div class="card-body pt-0">
                                             <%
-                                                String action = request.getParameter("buynow");
+                                                String hanhdong = request.getParameter("buynow");
                                                 String masanpham = request.getParameter("masanpham");
 
                                                 String size = request.getParameter("size");
-                                                //                                            if(action.equals("buynow")){
-                                                //                                                GioHang gioHangtemp = new GioHang();
-                                                //                                                gioHangtemp.setMakhachhang(khachHang.getMaKhachHang());
-                                                //                                                gioHangtemp.setMasanpham(masanpham);
-                                                //                                                gioHangtemp.setSize(size);
-                                                //                                                gioHangtemp.setSoluong(1);
-                                                //                                                list.add(gioHangtemp);
-                                                //                                            }
+                                                
+                                                Order order = new Order();
+                                                String prevaction = request.getAttribute("prevaction")+"";
+                                                if (prevaction.equals("buynow")) {
+                                                    order = (Order) request.getAttribute("order");
+                                                    System.out.println("prevaction: "+prevaction);
+                                                } else {
+                                                    order = (Order) session.getAttribute("order");
+                                                    System.out.println("prevaction: "+prevaction);
+                                                }
+
+                                                List<Item> list = order.getList();
+                                                double subtotal = 0.0;
 
                                                 int i = 0;
                                                 if (list != null && list.isEmpty()) {
@@ -185,18 +186,14 @@
                                                     gioHangtemp.setMasanpham(masanpham);
                                                     gioHangtemp.setSize(size);
                                                     gioHangtemp.setSoluong(1);
-                                                    //                                                gioHangtemp.
 
-                                                    //                                                GioHangDAO gioHangDAO = new GioHangDAO();
-                                                    //                                                gioHangDAO.insert(gioHangtemp);
-                                                    list.add(gioHangtemp);
                                                 }
 
                                                 if (list != null && !list.isEmpty()) {
-                                                    for (GioHang gioHang1 : list) {
+                                                    for (Item item : list) {
                                                         i++;
-                                                        SanPhamDAO sanPhamDAO = new SanPhamDAO();
-                                                        SanPham sp = sanPhamDAO.selectById(gioHang1.getMasanpham());
+                                                        SanPham sp = item.getSanpham();
+                                                        sp.setSoluong(item.getSoluong());
                                                         System.out.println("sp = " + sp.toString());
 
                                                         double priceTemp = 0.0;
@@ -213,31 +210,35 @@
 
                                             %>
 
+
                                             <div class="row justify-content-between">
                                                 <div class="col-auto col-md-7">
                                                     <div class="media flex-column flex-sm-row"> <img class=" img-fluid" src="<%= url%>/GUI/imgsanpham/<%= sp.getHinhanhsanpham()%>" width="62" height="62">
                                                         <div class="media-body my-auto">
                                                             <div class="row ">
                                                                 <div class="col-auto">
-                                                                    <p class="mb-0"><b><%= sp.getTensanpham() + " (" + sp.getMasanpham() + ")"%></b></p><small class="text-muted"><%= "Size: " + gioHang1.getSize() + " Color: " + sp.getMausac()%></small>
+                                                                    <p class="mb-0"><b><%= sp.getTensanpham()%></b></p>
+                                                                    <p class="mb-0"><b><%= sp.getMasanpham()%></b></p>
 
-                                                                   
-                                                                    
-                                                                    
+
+                                                                    <small class="text-muted"><%= "Size: " + sp.getKichco() + " Color: " + sp.getMausac()%></small>
+                                                                    <input  type="hidden" value="<%=sp.getMasanpham()%>" name="sanpham<%=i%>">
+                                                                    <input type="hidden"  value="<%=sp.getKichco()%>" name="sizesanpham<%=i%>">
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class=" pl-0 flex-sm-col col-auto my-auto">
-                                                    <p class="boxed-1"><%= gioHang1.getSoluong()%></p>
-                                                   
+                                                    <p class="boxed-1"><%= item.getSoluong()%></p>
+                                                    <input type="hidden"  value="<%=sp.getSoluong()%>" name="soluongsanpham<%=i%>">
                                                 </div>
                                                 <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                                    <p><b><%=priceTemp%> </b></p>
-                                                    
+                                                    <p><b><%=Money.getMoney(priceTemp)%> </b></p>
+                                                    <input type="hidden" name="giatiensanpham<%=i%>" value="<%=priceTemp%> ">
                                                     <%
-                                                        subtotal += priceTemp * gioHang1.getSoluong();
+                                                        subtotal += priceTemp * item.getSoluong();
                                                     %>
                                                 </div>
                                             </div>
@@ -249,75 +250,63 @@
 
 
                                             <%
-                                                MaGiamGiaDAO maGiamGiaDAO = new MaGiamGiaDAO();
-                                                List<MaGiamGia> listMaGiamGia = maGiamGiaDAO.selectAll();
 
+                                                List<MaGiamGia> listMaGiamGia = (List<MaGiamGia>) request.getAttribute("listMaGiamGia");
                                                 if (listMaGiamGia != null && !listMaGiamGia.isEmpty()) {
                                                     for (MaGiamGia maGiamGia : listMaGiamGia) {
                                             %>      
 
                                             <div class="row mb-3">
+
+
                                                 <div class="card-item" style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; width: 60%; max-width: 400px;">
                                                     <img class="img-fluid" src="<%=url%>/GUI/imgvoucher/<%=maGiamGia.getHinhanhvoucher()%>" style="width: 62px; height: 62px; object-fit: cover;">
                                                     <div style="flex: 1;">
                                                         <p style="margin: 0; font-size: 14px; font-weight: bold;"><%= maGiamGia.getTenMaGiamGia()%></p>
                                                         <small class="text-muted">EXP: <%= maGiamGia.getNgayHetHan()%></small>
                                                     </div>
-                                                    <input type="radio" name="voucher" value="<%=maGiamGia.getTiLeGiam()%> ">
+                                                    <input name="idmagiamgia" type="radio" value="<%=maGiamGia.getIdMaGiamGia()%>">
                                                 </div>
-
-
-
-                                                <%
-                                                        }
+                                            </div>
+                                            <%
                                                     }
-                                                %>
-                                                <!--                                        
-                                                                                        <div class="row mb-3">
-                                                                                            <div class="card-item" style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; width: 60%; max-width: 400px;">
-                                                                                                <img class="img-fluid" src="<%=url1%>/GUI/imgvoucher/voucher.png" style="width: 62px; height: 62px; object-fit: cover;">
-                                                                                                <div style="flex: 1;">
-                                                                                                    <p style="margin: 0; font-size: 14px; font-weight: bold;">Giảm 25% cho đơn hàng từ 100k</p>
-                                                                                                    <small class="text-muted">EXP: 15-02-2025</small>
-                                                                                                </div>
-                                                                                                <input type="radio" name="voucher" value="voucher25">
-                                                                                            </div>-->
-
-                                                <hr class="my-2">
-                                                <div class="row ">
-                                                    <div class="col">
-                                                        <div class="row justify-content-between">
-                                                            <div class="col-4">
-                                                                <p class="mb-1"><b>Subtotal</b></p>
-                                                            </div>
-                                                            <div class="flex-sm-col col-auto">
-                                                                <p class="mb-1"><b><%=Money.getMoney(subtotal)%></b></p>
-                                                            </div>
+                                                }
+                                            %>
+                                            <hr class="my-2">
+                                            <div class="row ">
+                                                <div class="col">
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <p class="mb-1"><b>Subtotal</b></p>
                                                         </div>
-                                                        <div class="row justify-content-between">
-                                                            <div class="col">
-                                                                <p class="mb-1"><b>Shipping</b></p>
-                                                            </div>
-                                                            <div class="flex-sm-col col-auto">
-                                                                <p class="mb-1"><b><%=Money.getMoney(30000.0)%></b></p>
-                                                            </div>
-                                                            <input type="hidden" name="ship" value="<%=30000.0%>">
+                                                        <div class="flex-sm-col col-auto">
+                                                            <p class="mb-1"><b><%=Money.getMoney(subtotal)%></b></p>
                                                         </div>
-                                                        <div class="row justify-content-between">
-                                                            <div class="col-4">
-                                                                <p><b>Total </b></p>
-                                                            </div>
-                                                            <div class="flex-sm-col col-auto">
-                                                                <p class="mb-1"><b><%=Money.getMoney(subtotal + 30000.0)%></b></p>
-                                                                <input style="color: red " type="hidden" name="total" value="<%=subtotal + 30000.0%>">
-                                                            </div>
-                                                        </div>
-                                                        <hr class="my-0">
                                                     </div>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col">
+                                                            <p class="mb-1"><b>Shipping</b></p>
+                                                        </div>
+                                                        <div class="flex-sm-col col-auto">
+                                                            <p class="mb-1"><b><%=Money.getMoney(30000.0)%></b></p>
+                                                        </div>
+                                                        <input type="hidden" name="ship" value="<%=30000.0%>">
+                                                    </div>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-4">
+                                                            <p><b>Total </b></p>
+                                                        </div>
+                                                        <div class="flex-sm-col col-auto">
+                                                            <p class="mb-1"><b><%=Money.getMoney(subtotal + 30000.0)%></b></p>
+                                                            <input style="color: red " type="hidden" name="total" value="<%=subtotal%>">
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-0">
                                                 </div>
-                                                <div class="row mb-5 mt-4 ">
-                                                    <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg">Purchase</button></div>
-                                                </div>
+                                            </div>
+                                            <div class="row mb-5 mt-4 ">
+                                                <input name="prevaction" value="<%=prevaction%>" >
+                                                <div class="col-md-7 col-lg-6 mx-auto"><button type="submit" class="btn btn-block btn-outline-primary btn-lg">Purchase</button></div>
                                             </div>
                                         </div>
                                     </div>
@@ -325,20 +314,21 @@
                             </div>
                         </div>
                     </div>
-
-                    <input type="hidden" name="soluongsanpham" value="<%=i%>">
-                    </form>
                 </div>
+
+                <input type="hidden" name="soluongmasanpham" value="<%=i%>">
+            </form>
         </div>
-        <script>
-            function redirectToCheckout() {
+    </div>
+    <script>
+        function redirectToCheckout() {
 // Lấy giá trị của trường size và masanpham từ form
-                var size = document.querySelector('select[name="size"]').value;
-                var masanpham = document.querySelector('input[name="masanpham"]').value;
+            var size = document.querySelector('select[name="size"]').value;
+            var masanpham = document.querySelector('input[name="masanpham"]').value;
 // Tạo URL với tham số size và masanpham
-                var url = '<%= url%>/khachhang/checkout.jsp?action=buynow&masanpham=' + encodeURIComponent(masanpham) + '&size=' + encodeURIComponent(size);
+            var url = '<%= url%>/khachhang/checkout.jsp?action=buynow&masanpham=' + encodeURIComponent(masanpham) + '&size=' + encodeURIComponent(size);
 // Chuyển hướng đến URL đó
-                window.location.href = url;
-            }
-        </script>
-    </body>	
+            window.location.href = url;
+        }
+    </script>
+</body>	

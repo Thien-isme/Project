@@ -59,17 +59,17 @@
             <!-- header -->
             <%@include file="/GUI/header.jsp" %>
             <%
-            
-                %>
+            %>
             <!-- header -->
             <!-- content -->
             <section class="py-5">
                 <div class="container">
 
                     <!--Lấy sản phẩm hiện lên-->
-                    <%  
-                        SanPham sp1 = (SanPham) request.getAttribute("sanpham");
-                        
+                    <%                        SanPham sp1 = (SanPham) request.getAttribute("sanpham");
+                        String error = request.getAttribute("error")+"";
+                        error =  error.equals("null") ? "" : error;
+
                         if (sp1 == null) {
                             System.out.println("sp1 bị null");
                         } else {
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="carousel-inner" >
                                     <div class="carousel-item active">
-                                        <img width="400px"src="<%=url%>/GUI/imgsanpham/<%= sp1.getHinhanhsanpham()%> " class="d-block w-100" alt="...">
+                                        <img width="400px"src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
                                         <img width="400" src="<%=url%>/GUI/imgsanpham/2.png" class="d-block w-100" alt="...">
@@ -167,14 +167,42 @@
                                 <hr />
 
                                 <form class="row mb-4" action="<%=url%>/khach-hang" method="get">
-                               <input name="masanpham" value="<%=sp1.getMasanpham()%>">
+                                    <input type="hidden" name="masanpham" value="<%=sp1.getMasanpham()%>">
+                                    <input type="hidden" name="soluong" value="1">
+                                    <!--<input type="hidden" name="nextpage" value="product-details.jsp">-->
                                     <div class=" col-12">
-                                        <label class="mb-2">Size</label>
-                                        <select class="form-select border border-secondary" style="width: 65px" name="size">
-                                            <option value="S">S</option>
-                                            <option value="M">M</option>
-                                            <option value="L">L</option>
-                                        </select>
+                                        <label class="form-label">Chọn kích cỡ:</label>
+                                        <%
+                                            List<SanPham> listsoluongsize = (List<SanPham>) request.getAttribute("listsoluongsize");
+                                            for (SanPham sanphamconsize : listsoluongsize) {
+                                        %>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="size" id="inlineRadio1" value="<%=sanphamconsize.getKichco()%>" <%=(sanphamconsize.getSoluong() <= 0) ? "disabled" : ""%>>
+                                            <label class="form-check-label" for="inlineRadio1"><%=sanphamconsize.getKichco()%></label>
+                                        </div>
+                                        <%
+                                            }
+                                        %>
+
+
+                                        <!--                                        <div class="form-check form-check-inline">
+                                                                                    <input class="form-check-input" type="radio" name="size" id="inlineRadio1" value="S">
+                                                                                    <label class="form-check-label" for="inlineRadio1">S</label>
+                                                                                </div>
+                                                                                <div class="form-check form-check-inline">
+                                                                                    <input class="form-check-input" type="radio" name="size" id="inlineRadio2" value="M">
+                                                                                    <label class="form-check-label" for="inlineRadio2">M</label>
+                                                                                </div>
+                                                                                <div class="form-check form-check-inline">
+                                                                                    <input class="form-check-input" type="radio" name="size" id="inlineRadio3" value="L" disabled>
+                                                                                    <label class="form-check-label" for="inlineRadio3">L (sold out)</label>
+                                                                                </div>-->
+                                        <!--<label class="mb-2">Size</label>-->
+                                        <!--                                        <select class="form-select border border-secondary" style="width: 65px" name="size">
+                                                                                    <option  value="S">S</option>
+                                                                                    <option value="M">M</option>
+                                                                                    <option value="L">L</option>
+                                                                                </select>-->
                                     </div>
                                     <!-- col.// -->
                                     <div class="row mt-3">
@@ -183,12 +211,14 @@
                                             <button  type="submit" name="hanhdong" value="buynow" class="btn btn-warning mb-2">Buy Now</button>
                                             </form>  -->
                                             <!--<a href="<%= url%>/khachhang/checkout.jsp?masanpham=THT-002&size=">Buynow</a>-->
-                                            <a href="#" onclick="redirectToCheckout();">Buy Now</a>
+                                            <!--<a href="#" onclick="redirectToCheckout();">Buy Now</a>-->
+                                            <button type="submit" name="hanhdong" value="buynow" class="btn btn-primary mb-2">Buy Now</button>
                                         </div>
 
                                         <div class="form-group col-5">
-                                            
+
                                             <button type="submit" name="hanhdong" value="addtocart" class="btn btn-primary mb-2">Add to Cart</button>
+                                            <span> <%=error%></span>
                                         </div>
                                     </div>
 
@@ -353,15 +383,22 @@
         </div>
         <!-- end hero area -->
         <script>
-    function redirectToCheckout() {
-        // Lấy giá trị của trường size và masanpham từ form
-        var size = document.querySelector('select[name="size"]').value;
-        var masanpham = document.querySelector('input[name="masanpham"]').value;
-        // Tạo URL với tham số size và masanpham
-        var url = '<%= url %>/khachhang/checkout.jsp?action=buynow&masanpham=' + encodeURIComponent(masanpham) + '&size=' + encodeURIComponent(size);
-        // Chuyển hướng đến URL đó
-        window.location.href = url;
-    }
-</script>
+            function redirectToCheckout() {
+                // Lấy radio button đã được chọn
+                var selectedSize = document.querySelector('input[name="size"]:checked');
+                // Kiểm tra xem có radio nào được chọn hay không
+                if (!selectedSize) {
+                    alert("Vui lòng chọn size sản phẩm");
+                    return;
+                }
+                var size = selectedSize.value;
+                var masanpham = document.querySelector('input[name="masanpham"]').value;
+                // Tạo URL với tham số size và masanpham
+                var url = '<%= url%>/khachhang/checkout.jsp?hanhdong=buynow&masanpham=' + encodeURIComponent(masanpham) + '&size=' + encodeURIComponent(size);
+                // Chuyển hướng đến URL đó
+                window.location.href = url;
+            }
+
+        </script>
     </body>hanhdong=addtocart&masanpham=THT-001
 </html>khach-hang?size=S&hanhdong=addtocart

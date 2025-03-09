@@ -1,4 +1,4 @@
-package controller;
+package controller.web;
 
 import database.KhachHangDAO;
 import java.io.File;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.web;
 
 import database.MaGiamGiaDAO;
 import database.SanPhamDAO;
@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Item;
 import model.MaGiamGia;
+import model.Order;
 import model.SanPham;
 import utils.JDBCUtil;
 
@@ -29,7 +31,7 @@ import utils.JDBCUtil;
  * @author Thien
  */
 @WebServlet(name = "WebController", urlPatterns = {"/web"})
-public class WebController extends HttpServlet {
+public class HomeController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,14 +51,19 @@ public class WebController extends HttpServlet {
         if (action == null) {
             SanPhamDAO sanPhamDAO = new SanPhamDAO();
             List<SanPham> listsanpham = sanPhamDAO.selectAll();
-            
+
             MaGiamGiaDAO maGiamGiaDAO = new MaGiamGiaDAO();
             List<MaGiamGia> listmagiamgia = maGiamGiaDAO.selectAll();
-            
+
             request.setAttribute("listsanpham", listsanpham);
             request.setAttribute("listmagiamgia", listmagiamgia);
-            
+
             List<String> listColor = sanPhamDAO.selectColor();
+            List<Item> list = new ArrayList<Item>();
+            Order order = new Order();
+            order.setList(list);
+//
+            session.setAttribute("order", order);
             session.setAttribute("listColor", listColor);
             request.getRequestDispatcher("/GUI/index.jsp").forward(request, response);
 //            response.sendRedirect("GUI/index.jsp");
@@ -104,6 +111,4 @@ public class WebController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-
-    
 }

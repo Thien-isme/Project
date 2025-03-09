@@ -2,7 +2,7 @@
 <%
     String url1 = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     SanPhamDAO sanPhamDAO = new SanPhamDAO();
-        List<String> listColor = (List<String>) session.getAttribute("listColor");
+    List<String> listColor = (List<String>) session.getAttribute("listColor");
 
 //    List<String> listColor = sanPhamDAO.selectColor();
 %>
@@ -267,13 +267,16 @@
                                 <input type="hidden" name="hanhdong" value="addtocart">
 
                                 <input type="hidden" name="masanpham" value="<%=sanPham.getMasanpham()%>">
-          
-<!--                                insert into giohang(makhachhang, masanpham, size, soluong)
-                                values ('1','THT-001','',1)-->
+                                <input type="hidden" name="size" value="M">
+                                <input type="hidden" name="soluong" value="1">
+                                <input type="hidden" name="nextpage" value="shop.jsp">
+
+                                <!--                                insert into giohang(makhachhang, masanpham, size, soluong)
+                                                                values ('1','THT-001','',1)-->
 
                                 <div class="text-center">
                                     <button class="img-name ">
-                                        <h6 class="col-12 text-center">Add to cart</h6>
+                                        <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sanPham.getMasanpham()%>"> Add to card </a>
                                     </button>
                                 </div>
                             </form> 
@@ -301,7 +304,7 @@
                         <ul class="pagination">
                             <li class="page-item"><a class="page-link" href="">Previous</a></li>
                                 <%
-                                                     if (soLuongPage                                       > 0) {
+                                    if (soLuongPage > 0) {
                                         for (int i = 1; i < soLuongPage; i++) {
 
                                 %>   

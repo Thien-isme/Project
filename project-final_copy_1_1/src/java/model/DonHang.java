@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Admin
@@ -13,15 +15,25 @@ public class DonHang {
 
     private String madonhang;
     private String makhachhang;
-    private String masanpham;
-
+    private String ngaydathang;
+    private String ngaygiaohangdukien;
+    private String trangthaidonhang;
+    private String phuongthucthanhtoan;
+    private String diachigiaohang;
+    private String idmagiamgia;
+    private Double tienvanchuyen;
+    private Double vat;
+    private Double tongtien;
+    
+    
+    
     public DonHang() {
     }
 
     public DonHang(String madonhang, String makhachhang, String masanpham) {
         this.madonhang = madonhang;
         this.makhachhang = makhachhang;
-        this.masanpham = masanpham;
+        
     }
     
     public DonHang(String madonhang, String makhachhang) {
@@ -46,12 +58,78 @@ public class DonHang {
         this.makhachhang = makhachhang;
     }
 
-    public String getMasanpham() {
-        return masanpham;
+    public String getNgaydathang() {
+        return ngaydathang;
     }
 
-    public void setMasanpham(String masanpham) {
-        this.masanpham = masanpham;
+    public void setNgaydathang(String ngaydathang) {
+        this.ngaydathang = ngaydathang;
     }
+
+    public String getNgaygiaohangdukien() {
+        return ngaygiaohangdukien;
+    }
+
+    public void setNgaygiaohangdukien(String ngaygiaohangdukien) {
+        this.ngaygiaohangdukien = ngaygiaohangdukien;
+    }
+
+    public String getTrangthaidonhang() {
+        return trangthaidonhang;
+    }
+
+    public void setTrangthaidonhang(String trangthaidonhang) {
+        this.trangthaidonhang = trangthaidonhang;
+    }
+
+    public String getPhuongthucthanhtoan() {
+        return phuongthucthanhtoan;
+    }
+
+    public void setPhuongthucthanhtoan(String phuongthucthanhtoan) {
+        this.phuongthucthanhtoan = phuongthucthanhtoan;
+    }
+
+    public String getDiachigiaohang() {
+        return diachigiaohang;
+    }
+
+    public void setDiachigiaohang(String diachigiaohang) {
+        this.diachigiaohang = diachigiaohang;
+    }
+
+    public String getIdmagiamgia() {
+        return idmagiamgia;
+    }
+
+    public void setIdmagiamgia(String idmagiamgia) {
+        this.idmagiamgia = idmagiamgia;
+    }
+
+    public Double getTienvanchuyen() {
+        return tienvanchuyen;
+    }
+
+    public void setTienvanchuyen(Double tienvanchuyen) {
+        this.tienvanchuyen = tienvanchuyen;
+    }
+
+    public Double getVat() {
+        return vat;
+    }
+
+    public void setVat(Double vat) {
+        this.vat = vat;
+    }
+
+    public Double getTongtien() {
+        return tongtien;
+    }
+
+    public void setTongtien(Double tongtien) {
+        this.tongtien = tongtien;
+    }
+
+    
 
 }

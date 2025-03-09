@@ -37,7 +37,7 @@
                     KhachHang khachHang = null;
                     if (obj != null) {
                         khachHang = (KhachHang) obj;
-                    }else{
+                    } else {
 //                        response.sendRedirect("web");
                     }
                 %>
@@ -45,7 +45,7 @@
                     if (khachHang == null) {
                         khachHang = new KhachHang();
                         Random rd = new Random();
-                        khachHang.setMaKhachHang("no"+System.currentTimeMillis() + rd.nextInt(1000) + "");
+                        khachHang.setMaKhachHang("no" + System.currentTimeMillis() + rd.nextInt(1000) + "");
                 %> 
 
                 <a href="<%= url%>/khachhang/login.jsp">
@@ -67,7 +67,7 @@
 
                             </a>
                             <ul class="dropdown-menu " >
-                                <li><a class="dropdown-item" href="#">My Order</a></li>
+                                <li><a class="dropdown-item" href="<%=url%>/don-hang?hanhdong=myorder">My Order</a></li>
                                 <li><a class="dropdown-item" href="<%=url%>/khachhang/update.jsp">Update Information</a></li>
                                 <li><a class="dropdown-item" href="<%=url%>/khachhang/resetpassword.jsp">Change Password</a></li>
                                 <li><a class="dropdown-item" href="<%=url%>/GUI/getvoucher.jsp">Get Voucher</a></li>
@@ -77,21 +77,23 @@
                         </li>
                     </ul>	
                 </div>
-                            
-                 <a href="<%= url%>/khachhang/cart.jsp">
-                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                </a>           
+
+
                 <%
                     }
                 %>                    
-                
-                    <form class="d-flex ms-auto" role="search" action="<%= url %>/san-pham" method="GET">
-                        <input type="hidden" name="hanhdong" value="search">
+                <a href="<%= url%>/khachhang/cart.jsp">
+                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                </a>
+
+
+                <form class="d-flex ms-auto" role="search" action="<%= url%>/san-pham" method="GET">
+                    <input type="hidden" name="hanhdong" value="search">
                     <div class="input-group">
-                        <% String keyword = request.getAttribute("keyword")+"";
-                            keyword = keyword.equals("null")?"": keyword;
+                        <% String keyword = request.getAttribute("keyword") + "";
+                            keyword = keyword.equals("null") ? "" : keyword;
                         %>    
-                        <input name="keyword" value="<%= keyword %>" type="text" class="form-control text-dark border-0" placeholder="Searching" aria-label="Search" style="outline: none;">
+                        <input name="keyword" value="<%= keyword%>" type="text" class="form-control text-dark border-0" placeholder="Searching" aria-label="Search" style="outline: none;">
                         <button class="btn btn-dark" type="submit">
                             <i class="fa fa-search"></i>
                         </button>

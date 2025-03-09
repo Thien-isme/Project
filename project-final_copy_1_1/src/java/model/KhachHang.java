@@ -53,6 +53,8 @@ public class KhachHang {
         this.hinhAvatar = hinhAvatar;
         this.isAdmin = isAdmin;
     }
+    
+    
 
     
 
@@ -70,6 +72,10 @@ public class KhachHang {
     }
     
     public KhachHang() {
+    }
+
+    public KhachHang(String maKhachHang, String tenDangNhap, String matKhau, String hoVaTen, String gioiTinh, Date ngaySinh, String soDienThoai, String email, String quocTich, String diaChiKhachHang, String diaChiNhanHang, String hoVaTen0, int admin) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getIsAdmin() {

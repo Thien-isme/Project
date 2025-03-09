@@ -55,9 +55,9 @@
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <form action="${url}/admin" method="POST">
-                                    <input type="hidden" name="hanhdong" value="createproduct">
+                                    <input type="hidden" name="hanhdong" value="createuser">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-plus"></i> Add new product
+                                        <i class="fas fa-plus"></i> Add new user
                                     </button>
                                 </form>
                             </div>
@@ -68,68 +68,67 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Image</th>
-                                                <th>Id</th>
-                                                <th>Name</th>
-                                                <th>Color</th>
-                                                <th>Type</th>
-                                                <th>Size</th>
-                                                <th>Quantity</th>
-                                                <th>Input price</th>
-                                                <th>Selling price</th>
-                                                <th>Discount</th>
-                                                <th>Description</th>
+                                                <th>Avatar</th>
+                                                <th>ID</th>
+                                                <th>User name</th>
+                                                <th>Pass word</th>
+                                                <th>Full name</th>
+                                                <th>Gender</th>
+                                                <th>Birthdate</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Country</th>
+                                                <th>Address</th>
+                                                <th>Delivery address</th>
+                                                <th>isAdmin</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Image</th>
-                                                <th>Id</th>
-                                                <th>Name</th>
-                                                <th>Color</th>
-                                                <th>Type</th>
-                                                <th>Size</th>
-                                                <th>Quantity</th>
-                                                <th>Input price</th>
-                                                <th>Selling price</th>
-                                                <th>Discount</th>
-                                                <th>Description</th>
+                                                <th>Avatar</th>
+                                                <th>ID</th>
+                                                <th>User name</th>
+                                                <th>Pass word</th>
+                                                <th>Full name</th>
+                                                <th>Gender</th>
+                                                <th>Birthdate</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Country</th>
+                                                <th>Address</th>
+                                                <th>Delivery address</th>
+                                                <th>isAdmin</th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-
-//                                                List<SanPham> listSanPham = (List<SanPham>) request.getAttribute("spList");
-//                                                if (listSanPham != null && !listSanPham.isEmpty()) {
-//                                                    for (SanPham sanpham : listSanPham) {
-%>
-                                            <c:forEach var="sanpham" items="${requestScope.spList}">
+                                            <c:forEach var="khachhang" items="${requestScope.userList}">
                                                 <tr>
-                                                    <th><img style="width: 30px; height: 30px; border-radius: 50%" src="${pageContext.request.contextPath}/GUI/imgsanpham/${sanpham.hinhanhsanpham}"  alt=""></th>
-                                                    <td>${sanpham.masanpham}</td>
-                                                    <td>${sanpham.tensanpham}</td>
-                                                    <td>${sanpham.mausac}</td>
-                                                    <td>${sanpham.kieumau}</td>
-                                                    <td>${sanpham.kichco}</td>
-                                                    <td>${sanpham.soluong}</td>
-                                                    <td>${sanpham.gianhapformated}</td>
-                                                    <td>${sanpham.giabanformated}</td>
-                                                    <td>${sanpham.giamgia}</td>
-                                                    <td>${sanpham.mota}</td>
+                                                    <td><img style="width: 30px; height: 30px; border-radius: 50%" src="${pageContext.request.contextPath}/uploads/${khachhang.hinhAvatar}"  alt=""></td>
+                                                    <td>${khachhang.maKhachHang}</td>
+                                                    <td>${khachhang.tenDangNhap}</td>
+                                                    <td>${khachhang.matKhau}</td>
+                                                    <td>${khachhang.hoVaTen}</td>
+                                                    <td>${khachhang.gioiTinh}</td>
+                                                    <td>${khachhang.ngaySinh}</td>
+                                                    <td>${khachhang.soDienThoai}</td>
+                                                    <td>${khachhang.email}</td>
+                                                    <td>${khachhang.quocTich}</td>
+                                                    <td>${khachhang.diaChiKhachHang}</td>
+                                                    <td>${khachhang.diaChiNhanHang}</td>
+                                                    <td>${khachhang.isAdmin}</td>
                                                     <td>
                                                         <div class="d-inline-flex gap-2">
                                                             <form action="${url}/admin" method="POST" class="d-inline">
-                                                                <input type="hidden" name="hanhdong" value="editsanpham">
-                                                                <input type="hidden" name="masanpham" value="${sanpham.masanpham}">
+                                                                <input type="hidden" name="hanhdong" value="edituser">
+                                                                <input type="hidden" name="maKhachHang" value="${khachhang.maKhachHang}">
                                                                 <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
                                                             </form>
 
                                                             <form action="${url}/admin" method="POST" class="d-inline">
-                                                                <input type="hidden" name="hanhdong" value="delete">
-                                                                <input type="hidden" name="masanpham" value="${sanpham.masanpham}">
-                                                                <input type="hidden" name="size" value="${sanpham.kichco}">
+                                                                <input type="hidden" name="hanhdong" value="deleteuser">
+                                                                <input type="hidden" name="maKhachHang" value="${khachhang.maKhachHang}">
                                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                             </form>
                                                         </div>

@@ -11,131 +11,61 @@ package model;
  */
 public class ChiTietDonHang {
 
-    private String maDonHang;
-    private String maSanPham;
-    private String trangThaiDonHang;
-    private String phuongThucThanhToan;
-    private String ngayDatHang;
-    private String ngayGiaoHangDuKien;
-    private String diaChiGiaoHang;
-    private int soLuongSanPhamMua;
-    private double tienVanChuyen;
-    private int vat;
-    public String magiamgia;
-    private double tongTien;   
+    private String madonhang;
+    private String masanpham;
+    private String size;
+    private int soluongsanphammua;
+    private double giaban;   
 
-    public ChiTietDonHang(String maDonHang, String maSanPham, String trangThaiDonHang, String phuongThucThanhToan, String ngayDatHang, String ngayGiaoHangDuKien, String diaChiGiaoHang, int soLuongSanPhamMua, double tienVanChuyen, int vat, String magiamgia, double tongTien) {
-        this.maDonHang = maDonHang;
-        this.maSanPham = maSanPham;
-        this.trangThaiDonHang = trangThaiDonHang;
-        this.phuongThucThanhToan = phuongThucThanhToan;
-        this.ngayDatHang = ngayDatHang;
-        this.ngayGiaoHangDuKien = ngayGiaoHangDuKien;
-        this.diaChiGiaoHang = diaChiGiaoHang;
-        this.soLuongSanPhamMua = soLuongSanPhamMua;
-        this.tienVanChuyen = tienVanChuyen;
-        this.vat = vat;
-        this.magiamgia = magiamgia;
-        this.tongTien = tongTien;
+
+    public ChiTietDonHang() {
     }
 
-    public String getMaDonHang() {
-        return maDonHang;
+    public String getMadonhang() {
+        return madonhang;
     }
 
-    public void setMaDonHang(String maDonHang) {
-        this.maDonHang = maDonHang;
+    public void setMadonhang(String madonhang) {
+        this.madonhang = madonhang;
     }
 
-    public String getMaSanPham() {
-        return maSanPham;
+    public String getMasanpham() {
+        return masanpham;
     }
 
-    public void setMaSanPham(String maSanPham) {
-        this.maSanPham = maSanPham;
+    public void setMasanpham(String masanpham) {
+        this.masanpham = masanpham;
     }
 
-    public String getTrangThaiDonHang() {
-        return trangThaiDonHang;
+    public String getSize() {
+        return size;
     }
 
-    public void setTrangThaiDonHang(String trangThaiDonHang) {
-        this.trangThaiDonHang = trangThaiDonHang;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public String getPhuongThucThanhToan() {
-        return phuongThucThanhToan;
+    public int getSoluongsanphammua() {
+        return soluongsanphammua;
     }
 
-    public void setPhuongThucThanhToan(String phuongThucThanhToan) {
-        this.phuongThucThanhToan = phuongThucThanhToan;
+    public void setSoluongsanphammua(int soluongsanphammua) {
+        this.soluongsanphammua = soluongsanphammua;
     }
 
+    
 
-
-    public String getNgayDatHang() {
-        return ngayDatHang;
+    public double getGiaban() {
+        return giaban;
     }
 
-    public void setNgayDatHang(String ngayDatHang) {
-        this.ngayDatHang = ngayDatHang;
+    public void setGiaban(double giaban) {
+        this.giaban = giaban;
     }
+    
+    
 
-    public String getNgayGiaoHangDuKien() {
-        return ngayGiaoHangDuKien;
-    }
-
-    public void setNgayGiaoHangDuKien(String ngayGiaoHangDuKien) {
-        this.ngayGiaoHangDuKien = ngayGiaoHangDuKien;
-    }
-
-    public String getDiaChiGiaoHang() {
-        return diaChiGiaoHang;
-    }
-
-    public void setDiaChiGiaoHang(String diaChiGiaoHang) {
-        this.diaChiGiaoHang = diaChiGiaoHang;
-    }
-
-    public int getSoLuongSanPhamMua() {
-        return soLuongSanPhamMua;
-    }
-
-    public void setSoLuongSanPhamMua(int soLuongSanPhamMua) {
-        this.soLuongSanPhamMua = soLuongSanPhamMua;
-    }
-
-    public double getTienVanChuyen() {
-        return tienVanChuyen;
-    }
-
-    public void setTienVanChuyen(double tienVanChuyen) {
-        this.tienVanChuyen = tienVanChuyen;
-    }
-
-    public int getVat() {
-        return vat;
-    }
-
-    public void setVat(int vat) {
-        this.vat = vat;
-    }
-
-    public String getMagiamgia() {
-        return magiamgia;
-    }
-
-    public void setMagiamgia(String magiamgia) {
-        this.magiamgia = magiamgia;
-    }
-
-    public double getTongTien() {
-        return tongTien;
-    }
-
-    public void setTongTien(double tongTien) {
-        this.tongTien = tongTien;
-    }
+    
 
     
 

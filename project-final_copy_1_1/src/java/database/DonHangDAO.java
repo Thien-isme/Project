@@ -43,7 +43,7 @@ public class DonHangDAO implements DAOInterface<DonHang> {
                 String masanpham = rs.getString("masanpham");
                 dh = new DonHang(madonhang, makhachhang, masanpham);
             }
-           con.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,11 +55,20 @@ public class DonHangDAO implements DAOInterface<DonHang> {
         int result = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO donhang (madonhang, makhachhang, masanpham) VALUES (?, ?, ?)";
+            String sql = " INSERT INTO donhang (madonhang, makhachhang, ngaydathang, ngaygiaohangdukien, trangthaidonhang, phuongthucthanhtoan, diachigiaohang, idmagiamgia, tienvanchuyen, vat, tongtien) \n"
+                    + "VALUES (?, ?,?,?,?,?,?,?,?,?,?); ";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, dh.getMadonhang());
             ps.setString(2, dh.getMakhachhang());
-            ps.setString(3, dh.getMasanpham());
+            ps.setString(3, dh.getNgaydathang());
+            ps.setString(4, dh.getNgaygiaohangdukien());
+            ps.setString(5, dh.getTrangthaidonhang());
+            ps.setString(6, dh.getPhuongthucthanhtoan());
+            ps.setString(7, dh.getDiachigiaohang());
+            ps.setString(8, dh.getIdmagiamgia());
+            ps.setDouble(9, dh.getTienvanchuyen());
+            ps.setDouble(10, dh.getVat());
+            ps.setDouble(11, dh.getTongtien());
             result = ps.executeUpdate();
             con.close();
         } catch (SQLException e) {
@@ -110,7 +119,6 @@ public class DonHangDAO implements DAOInterface<DonHang> {
             String sql = "UPDATE donhang SET makhachhang = ?, masanpham = ? WHERE madonhang = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, dh.getMakhachhang());
-            ps.setString(2, dh.getMasanpham());
             ps.setString(3, dh.getMadonhang());
             result = ps.executeUpdate();
             con.close();

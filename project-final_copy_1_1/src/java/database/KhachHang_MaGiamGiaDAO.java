@@ -3,6 +3,8 @@ package database;
 import model.KhachHang_MaGiamGia;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+import model.MaGiamGia;
 import utils.JDBCUtil;
 
 public class KhachHang_MaGiamGiaDAO implements DAOInterface<KhachHang_MaGiamGia> {
@@ -98,5 +100,33 @@ public class KhachHang_MaGiamGiaDAO implements DAOInterface<KhachHang_MaGiamGia>
     public int update(KhachHang_MaGiamGia t) {
         // Không có nhiều thông tin để cập nhật, bạn có thể chỉnh sửa thêm nếu cần
         return 0;
+    }
+
+    public List<MaGiamGia> selectMaGiamGiaCuaKhachHang(String makhachhang) {
+        List<MaGiamGia> list = new ArrayList<MaGiamGia>();
+        
+        String sql = " SELECT m.idmagiamgia, m.tenmagiamgia, m.ngayhethan, m.soluongvoucherconlai, m.hinhanhvoucher\n"
+                + " FROM khachhang_magiamgia join magiamgia m on khachhang_magiamgia.idmagiamgia = m.idmagiamgia\n"
+                + " WHERE maKhachHang = ? ";
+        try (
+                Connection conn = JDBCUtil.getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, makhachhang);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                MaGiamGia maGiamGia = new MaGiamGia();
+                maGiamGia.setIdMaGiamGia(rs.getString(1));
+                maGiamGia.setTenMaGiamGia(rs.getString(2));
+                maGiamGia.setNgayHetHan(rs.getDate(3)+"");
+                maGiamGia.setSoLuong(rs.getInt(4));
+                maGiamGia.setHinhanhvoucher(rs.getString(5));
+                
+                list.add(maGiamGia);
+            }
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

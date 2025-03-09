@@ -1,3 +1,4 @@
+<link href="${pageContext.request.contextPath}css/style.css" rel="stylesheet" type="text/css"/>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -6,7 +7,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">Admin <sup>2</sup></div>
     </a>
 
     <!-- Divider -->
@@ -14,21 +15,24 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="/project-final/admin/index.jsp">
+        <a class="nav-link" href="${pageContext.request.contextPath}/admin-home">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
 
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="/project-final/admin?hanhdong=load">
+        <a class="nav-link" href="/project-final_copy_1_1/admin?hanhdong=load">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Category</span></a>
-
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/project-final_copy_1_1/admin?hanhdong=user">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>User</span></a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
 </ul>
 <!-- End of Sidebar -->
 <!-- Bootstrap core JavaScript-->

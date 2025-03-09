@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.web;
 
 import database.SanPhamDAO;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class SanPhamController extends HttpServlet {
             throws ServletException, IOException {
         String hanhdong = request.getParameter("hanhdong");
 
-        if (hanhdong.equals("searchByConditions")) {
+        if (hanhdong==null || hanhdong.equals("searchByConditions")) {
             searchByConditions(request, response);
         } else if (hanhdong.equals("search")) {
             search(request, response);
@@ -72,24 +72,17 @@ public class SanPhamController extends HttpServlet {
 
 //            String sql = "SELECT * FROM sanpham WHERE 1=1";
             ////////////////////////////////////////////////////////////////////
-            String sql = " SELECT distinct s.masanpham, tensanpham, hinhanhsanpham, mausac, kieumau,giaban, giamgia \n"
-                    + "from sanpham s ";
+            String sql = " SELECT distinct s.masanpham, tensanpham, hinhanhsanpham, mausac, c.categoryName as 'kieumau', giaban, giamgia \n" +
+"from sanpham s inner join sanpham_size ss on s.masanpham=ss.masanpham join categories c on c.categoryID = s.categoryID";
 
-            // Lọc theo size (S, M, L, XL)
-            if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
-                sql += " inner join sanpham_size ss on s.masanpham=ss.masanpham ";
-            }
 
-            sql += " where 1=1 ";
+            sql += " where 1=1 AND ss.soluong >0 ";
 
-            if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
-                sql += " AND ss.soluong >0 ";
-            }
 
 ////////////////////////////////////////////////////////////////////
 // Lọc theo loại mũ (Fullface, Half-Helmet, Three-Quarter)
             if (request.getParameter("types") != null && !request.getParameter("types").isEmpty()) {
-                sql += " AND kieumau = ?";
+                sql += " AND c.categoryName = ?";
             }
 
             if (request.getParameter("color") != null && !request.getParameter("color").isEmpty()) {
@@ -282,10 +275,12 @@ public class SanPhamController extends HttpServlet {
             String masanpham = request.getParameter("masanpham");
             SanPhamDAO dao = new SanPhamDAO();
             SanPham sp1 = dao.selectById(masanpham);
-
-            List<SanPham> list = dao.selectAll();
+            List<SanPham> listsoluongsize = dao.selectsizecuamasanphamconhang(masanpham);
+            
+            List<SanPham> list = dao.selectAll(); // list cho 4 sản phẩm bên dưới
 
             request.setAttribute("list", list);
+            request.setAttribute("listsoluongsize", listsoluongsize);
             request.setAttribute("sanpham", sp1);
             request.getRequestDispatcher("/sanpham/product-details.jsp").forward(request, response);
         } catch (Exception e) {

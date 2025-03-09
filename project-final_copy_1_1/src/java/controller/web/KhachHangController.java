@@ -1,11 +1,17 @@
-package controller;
+package controller.web;
 
 import database.GioHangDAO;
 import database.KhachHangDAO;
+import database.KhachHang_MaGiamGiaDAO;
+import database.MaGiamGiaDAO;
+import database.SanPhamDAO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +25,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import model.GioHang;
+import model.Item;
 import model.KhachHang;
+import model.MaGiamGia;
+import model.Order;
+import model.SanPham;
 import utils.Email;
 import utils.OTP;
 import utils.Time;
@@ -51,14 +61,20 @@ public class KhachHangController extends HttpServlet {
             viaemailbeforeresetpassword(request, response);
         } else if (hanhdong.equals("updateAvatar")) {
             updateavatar(request, response);
+        } else if (hanhdong.equals("buynow")) {
+            buynow(request, response);
         } else if (hanhdong.equals("addtocart")) {
             addtocart(request, response);
         } else if (hanhdong.equals("minusonecart")) {
             minusonecart(request, response);
         } else if (hanhdong.equals("plusonecart")) {
-            plusonecart(request, response);
+            plusonecart1(request, response);
         } else if (hanhdong.equals("deleteproductoutcart")) {
-            deleteproductoutcart(request, response);
+            deleteproductoutcart1(request, response);
+        } else if (hanhdong.equals("showcart")) {
+            showcart(request, response);
+        } else if (hanhdong.equals("checkout")) {
+            checkout(request, response);
         }
 
     }
@@ -167,7 +183,7 @@ public class KhachHangController extends HttpServlet {
                     if (khachHang.getIsAdmin() == 1) {
                         url = "/admin/index.jsp";
                     } else {
-                        url = "/GUI/index.jsp";
+                        url = "/web";
                     }
                     session.setAttribute("khachHang", khachHang);
                 } else {
@@ -462,33 +478,81 @@ public class KhachHangController extends HttpServlet {
 
     private void addtocart(HttpServletRequest request, HttpServletResponse response) {
         try {
+            String masanpham = request.getParameter("masanpham");
+            String kichco = request.getParameter("size");
+            String soluong = request.getParameter("soluong");
+//            String nextpage = request.getParameter("nextpage");
+
+            SanPhamDAO sanPhamDAO = new SanPhamDAO();
+            SanPham sanPham = sanPhamDAO.selectById(masanpham);
+
+            sanPham.setKichco(kichco);
+//            sanPham.setSoluong(Integer.parseInt(soluong));
+            System.out.println("Ma san pham: " + masanpham);
+            System.out.println("kichco: " + kichco);
+
             HttpSession session = request.getSession();
-            Object obj = session.getAttribute("khachHang");
-            KhachHang kh = null;
-            if (obj != null) {
-                kh = (KhachHang) obj;
-            }
-
             String error = "";
-            String url = "";
+//            SanPham sanpham = null;
 
-            if (kh == null) {
-                url = "/khachhang/login.jsp";
+            if (session.getAttribute("order") == null) {
+
+                Order order = new Order();
+                List<Item> list = new ArrayList<Item>();
+                Item item = new Item();
+                item.setSanpham(sanPham);
+                sanPham = item.getSanpham();
+                item.setSoluong(Integer.parseInt(soluong));
+                System.out.println(item.toString());
+                list.add(item);
+                order.setList(list);
+
+                session.setAttribute("order", order);
             } else {
-                String defalutSize = "M";
-                String size = request.getParameter("size");
-                if (size != null && !size.isEmpty()) {
-                    defalutSize = size;
+                Order order = (Order) session.getAttribute("order");
+                System.out.println("order2 " + order == null);
+                List<Item> list = order.getList();
+                boolean check = false;
+                for (Item item : list) {
+                    if (item.getSanpham().getMasanpham().equals(masanpham) && item.getSanpham().getKichco().equals(kichco)) {
+                        int soLuongSanPhamTrongKho = sanPhamDAO.kiemTraSoLuongSanPham(item.getSanpham());
+                        if (soLuongSanPhamTrongKho >= item.getSoluong() + 1) {
+                            item.setSoluong(item.getSoluong() + 1);
+                        } else {
+                            error = " <br> Không thể thêm! Sản phẩm trong giỏ hàng của bạn đã vượt quá số lượng trong kho";
+                            item.setSoluong(item.getSoluong());
+                        }
+                        check = true;
+                        break;
+                    }
                 }
-                String masanpham = request.getParameter("masanpham");
-                GioHang gioHang = new GioHang(kh.getMaKhachHang(), masanpham, defalutSize, 1);
 
-                GioHangDAO dao = new GioHangDAO();
-                dao.insert(gioHang);
+                if (check == false) {
+                    Item item = new Item();
+                    item.setSanpham(sanPham);
+//                    sanpham = item.getSanpham();
+                    item.setSoluong(Integer.parseInt(soluong));
+                    list.add(item);
 
-                url = "/GUI/shop.jsp";
+                }
+                session.setAttribute("order", order);
+
             }
-            request.getRequestDispatcher(url).forward(request, response);
+
+//            if (nextpage.equals("product-details.jsp")) {
+            SanPhamDAO dao = new SanPhamDAO();
+            List<SanPham> list = dao.selectAll();
+            List<SanPham> listsoluongsize = dao.selectsizecuamasanphamconhang(masanpham);
+
+            request.setAttribute("list", list);
+            request.setAttribute("sanpham", sanPham);
+            request.setAttribute("error", error);
+            request.setAttribute("listsoluongsize", listsoluongsize);
+            request.getRequestDispatcher("/sanpham/product-details.jsp").forward(request, response);
+//            } else {
+//                response.sendRedirect(request.getContextPath() + "/san-pham");
+//            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -536,28 +600,28 @@ public class KhachHangController extends HttpServlet {
 
     private void minusonecart(HttpServletRequest request, HttpServletResponse response) {
         try {
-            HttpSession session = request.getSession();
-            Object obj = session.getAttribute("khachHang");
-            KhachHang kh = null;
-            if (obj != null) {
-                kh = (KhachHang) obj;
+
+            HttpSession session = request.getSession(false);
+            Order order = (Order) session.getAttribute("order");
+
+            String masanpham = request.getParameter("masanpham");
+            String size = request.getParameter("size");
+
+            List<Item> list = order.getList();
+
+            for (Item item : list) {
+                if (item.getSanpham().getMasanpham().equals(masanpham) && item.getSanpham().getKichco().equals(size)) {
+                    if (item.getSoluong() == 1) {
+                        deleteproductoutcart1(request, response);
+                    }
+                    item.setSoluong(item.getSoluong() - 1);
+                    break;
+                }
+
             }
 
-            String error = "";
-            String url = "";
-
-            if (kh == null) {
-                url = "/khachhang/login.jsp";
-            } else {
-                String masanpham = request.getParameter("masanpham");
-                String size = request.getParameter("size");
-                GioHang gioHang = new GioHang(kh.getMaKhachHang(), masanpham, size, 1);
-                GioHangDAO dao = new GioHangDAO();
-                dao.minusOneCart(gioHang);
-
-                url = "/khachhang/cart.jsp";
-            }
-            request.getRequestDispatcher(url).forward(request, response);
+            session.setAttribute("order", order);
+            request.getRequestDispatcher("/khachhang/cart.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -592,6 +656,41 @@ public class KhachHangController extends HttpServlet {
         }
     }
 
+    private void plusonecart1(HttpServletRequest request, HttpServletResponse response) {
+        try {
+
+            HttpSession session = request.getSession(false);
+            Order order = (Order) session.getAttribute("order");
+
+            String masanpham = request.getParameter("masanpham");
+            String size = request.getParameter("size");
+
+            List<Item> list = order.getList();
+            String error = "";
+            for (Item item : list) {
+                if (item.getSanpham().getMasanpham().equals(masanpham) && item.getSanpham().getKichco().equals(size)) {
+                    SanPhamDAO sanPhamDAO = new SanPhamDAO();
+
+                    int soLuongSanPhamTrongKho = sanPhamDAO.kiemTraSoLuongSanPham(item.getSanpham());
+                    System.out.println("soLuongSanPhamTrongKho" + soLuongSanPhamTrongKho);
+                    if (soLuongSanPhamTrongKho >= item.getSoluong() + 1) {
+                        item.setSoluong(item.getSoluong() + 1);
+                    } else {
+                        System.out.println(item.getSoluong());
+                        error = "Sản phẩm đã vượt quá số lượng trong kho";
+                    }
+                    break;
+                }
+
+            }
+            session.setAttribute("error", error);
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("/khachhang/cart.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void deleteproductoutcart(HttpServletRequest request, HttpServletResponse response) {
         try {
             HttpSession session = request.getSession();
@@ -618,6 +717,107 @@ public class KhachHangController extends HttpServlet {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void deleteproductoutcart1(HttpServletRequest request, HttpServletResponse response) {
+        try {
+
+            HttpSession session = request.getSession(false);
+            Order order = (Order) session.getAttribute("order");
+
+            String masanpham = request.getParameter("masanpham");
+            String size = request.getParameter("size");
+
+            List<Item> list = order.getList();
+
+            for (Item item : list) {
+                if (item.getSanpham().getMasanpham().equals(masanpham) && item.getSanpham().getKichco().equals(size)) {
+                    if (list.remove(item));
+                    break;
+                }
+
+            }
+
+            session.setAttribute("order", order);
+            request.getRequestDispatcher("/khachhang/cart.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showcart(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    private void checkout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try {
+            HttpSession session = request.getSession();
+            KhachHang khachhang = (KhachHang) session.getAttribute("khachHang");
+//        Order order = (Order) session.getAttribute("order");
+            System.out.println("Hellloooo");
+
+            if (khachhang == null) {
+                response.sendRedirect("khachhang/login.jsp");
+                return;
+            }
+
+            KhachHang_MaGiamGiaDAO dao = new KhachHang_MaGiamGiaDAO();
+            List<MaGiamGia> listMaGiamGia = dao.selectMaGiamGiaCuaKhachHang(khachhang.getMaKhachHang());
+            
+            request.setAttribute("listMaGiamGia", listMaGiamGia);
+            request.setAttribute("prevaction", "checkout");
+            request.getRequestDispatcher("khachhang/checkout.jsp").forward(request, response);
+
+        } catch (IOException ex) {
+            System.out.println("Lỗi ở gọi check out từ cart.jsp");
+            ex.printStackTrace();
+        }
+    }
+
+    private void buynow(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            HttpSession session = request.getSession();
+            KhachHang khachhang = (KhachHang) session.getAttribute("khachHang");
+//        Order order = (Order) session.getAttribute("order");
+            System.out.println("Hellloooo");
+
+            if (khachhang == null) {
+                response.sendRedirect("khachhang/login.jsp");
+                return;
+            }
+
+            String masanpham = request.getParameter("masanpham"); // "THT-002"
+            String soluong = request.getParameter("soluong");
+            String size = request.getParameter("size");
+
+            SanPhamDAO sanPhamDAO = new SanPhamDAO();
+            SanPham sp = sanPhamDAO.selectById(masanpham);
+            sp.setKichco(size);
+            
+            
+            Item item = new Item();
+            item.setSanpham(sp);
+            item.setSoluong(1);
+            
+            List<Item> listtemp = new ArrayList<Item>();
+            listtemp.add(item);
+
+            Order order = new Order();
+            order.setList(listtemp);
+
+            KhachHang_MaGiamGiaDAO dao = new KhachHang_MaGiamGiaDAO();
+            List<MaGiamGia> listMaGiamGia = dao.selectMaGiamGiaCuaKhachHang(khachhang.getMaKhachHang());
+
+            request.setAttribute("listMaGiamGia", listMaGiamGia);
+            request.setAttribute("order", order);
+            request.setAttribute("prevaction", "buynow");
+
+            request.getRequestDispatcher("khachhang/checkout.jsp").forward(request, response);
+
+        } catch (IOException ex) {
+            System.out.println("Lỗi ở gọi check out từ cart.jsp");
+            ex.printStackTrace();
         }
     }
 

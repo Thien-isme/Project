@@ -26,20 +26,13 @@ public class ChiTietDonHangDAO {
 
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO chitietdonhang VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO chitietdonhang VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, ctdh.getMaDonHang());
-            ps.setString(2, ctdh.getMaSanPham());
-            ps.setString(3, ctdh.getTrangThaiDonHang());
-            ps.setString(4, ctdh.getPhuongThucThanhToan());
-            ps.setString(5, ctdh.getNgayDatHang());
-            ps.setString(6, ctdh.getNgayGiaoHangDuKien());
-            ps.setString(7, ctdh.getDiaChiGiaoHang());
-            ps.setInt(8, ctdh.getSoLuongSanPhamMua());
-            ps.setDouble(9, ctdh.getTienVanChuyen());
-            ps.setInt(10, ctdh.getVat());
-            ps.setString(11, ctdh.getMagiamgia());
-            ps.setDouble(12, ctdh.getTongTien());
+            ps.setString(1, ctdh.getMadonhang());
+            ps.setString(2, ctdh.getMasanpham());
+            ps.setString(3, ctdh.getSize());
+            ps.setInt(4, ctdh.getSoluongsanphammua());
+            ps.setDouble(5, ctdh.getGiaban());
             result = ps.executeUpdate();
             con.close();
         } catch (SQLException e) {
@@ -73,29 +66,5 @@ public class ChiTietDonHangDAO {
         return ketQua;
     }
 
-    public static void main(String[] args) {
-        try {
-            ChiTietDonHangDAO dao = new ChiTietDonHangDAO();
-            ChiTietDonHang chiTietDonHang = dao.select("1740907669030");
-
-            if (chiTietDonHang != null) {
-                System.out.println("Mã đơn hàng: " + chiTietDonHang.getMaDonHang());
-                System.out.println("Mã sản phẩm: " + chiTietDonHang.getMaSanPham());
-                System.out.println("Trạng thái đơn hàng: " + chiTietDonHang.getTrangThaiDonHang());
-                System.out.println("Phương thức thanh toán: " + chiTietDonHang.getPhuongThucThanhToan());
-            
-                System.out.println("Ngày đặt hàng: " + chiTietDonHang.getNgayDatHang());
-                System.out.println("Ngày giao hàng dự kiến: " + chiTietDonHang.getNgayGiaoHangDuKien());
-                System.out.println("Địa chỉ giao hàng: " + chiTietDonHang.getDiaChiGiaoHang());
-                System.out.println("Số lượng sản phẩm mua: " + chiTietDonHang.getSoLuongSanPhamMua());
-                System.out.println("Tiền vận chuyển: " + chiTietDonHang.getTienVanChuyen());
-                System.out.println("VAT: " + chiTietDonHang.getVat());
-                System.out.println("Tổng tiền: " + chiTietDonHang.getTongTien());
-            } else {
-                System.out.println("Không tìm thấy đơn hàng với mã: 1740907669030");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    
 }
