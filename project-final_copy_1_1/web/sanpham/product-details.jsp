@@ -91,14 +91,14 @@
                                         <img width="400px"src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                        <img width="400" src="<%=url%>/GUI/imgsanpham/2.png" class="d-block w-100" alt="...">
+                                        <img width="400" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                        <img width="400px" src="<%=url%>/GUI/imgsanpham/3.png" class="d-block w-100" alt="...">
+                                        <img width="400px" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>" class="d-block w-100" alt="...">
                                     </div>
 
                                     <div class="carousel-item">
-                                        <img width="400px" src="<%=url%>/GUI/imgsanpham/4.png" class="d-block w-100" alt="...">
+                                        <img width="400px" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>" class="d-block w-100" alt="...">
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -111,10 +111,10 @@
                                 </button>
                             </div>
                             <div class="row">
-                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/1.png"> </div>
-                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/1.png"> </div>
-                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/1.png"> </div>
-                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/1.png"> </div>
+                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>"> </div>
+                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>"> </div>
+                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>"> </div>
+                                <div class="col-3"> <img width="120px" src="<%=url%>/GUI/imgsanpham/<%=sp1.getHinhanhsanpham()%>"> </div>
 
 
                             </div>

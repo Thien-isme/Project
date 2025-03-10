@@ -213,7 +213,7 @@ public class AdminController extends HttpServlet {
         // Lưu file vào thư mục uploads
         String filePath = uploadPath + File.separator + fileName;
         filePart.write(filePath);
-
+        System.out.println("filePath"+ filePath.toString()) ;
         return fileName; // Trả về tên file mới
     }
 
@@ -402,6 +402,7 @@ public class AdminController extends HttpServlet {
         try {
             // Gọi hàm upload ảnh mới, nếu không có ảnh mới sẽ giữ ảnh cũ
             String hinhanhsanpham = uploadNewImage(request, oldImage);
+            
 
             // Cập nhật sản phẩm
             SanPham sp = new SanPham(masanpham, tensanpham, hinhanhsanpham, mausac, categoryID, gianhap, giaban, giamgia, mota);
