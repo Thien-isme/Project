@@ -44,15 +44,14 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
                 String quocTich = rs.getString(9);
                 String diaChiKhachHang = rs.getString(10);
                 String diaChiNhanHang = rs.getString(11);
-                boolean dangKyNhanBangTin = rs.getBoolean(12);
-                String maXacThuc = rs.getString(13);
-                String thoiGianHieuLucMaXacThuc = rs.getString(14);
-                String trangThaiXacThuc = rs.getString(15);
-                String hinhAvatar = rs.getString(16);
-                int isAdmin = rs.getInt(17);
+                String maXacThuc = rs.getString(12);
+                String thoiGianHieuLucMaXacThuc = rs.getString(13);
+                String trangThaiXacThuc = rs.getString(14);
+                String hinhAvatar = rs.getString(15);
+                int isAdmin = rs.getInt(16);
 
                 ketQua = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, ngaySinh,
-                        soDienThoai, email, quocTich, diaChiKhachHang, diaChiNhanHang, dangKyNhanBangTin,
+                        soDienThoai, email, quocTich, diaChiKhachHang, diaChiNhanHang,
                         maXacThuc, thoiGianHieuLucMaXacThuc, trangThaiXacThuc, hinhAvatar, isAdmin);
 
             }
@@ -124,7 +123,7 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
             Connection c = JDBCUtil.getConnection();
 
             // B2: Tạo câu SQL
-            String sql = "UPDATE khachhang SET hovaten=?, gioitinh=?, ngaysinh=?, sodienthoai=?, email=?, quoctich=?, diachikhachhang=?, diachinhanhang=?, dangkynhanbangtin=? "
+            String sql = "UPDATE khachhang SET hovaten=?, gioitinh=?, ngaysinh=?, sodienthoai=?, email=?, quoctich=?, diachikhachhang=?, diachinhanhang=? "
                     + " WHERE makhachhang=?";
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1, t.getHoVaTen());
@@ -135,9 +134,8 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
             ps.setString(6, t.getQuocTich());
             ps.setString(7, t.getDiaChiKhachHang());
             ps.setString(8, t.getDiaChiNhanHang());
-            ps.setBoolean(9, t.isDangKyNhanBangTin());
 
-            ps.setString(10, t.getMaKhachHang());
+            ps.setString(9, t.getMaKhachHang());
 
             System.out.println(ps);
             // B3: Chạy câu lệnh SQL
@@ -189,15 +187,14 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
                 String quocTich = rs.getString(9);
                 String diaChiKhachHang = rs.getString(10);
                 String diaChiNhanHang = rs.getString(11);
-                boolean dangKyNhanBangTin = rs.getBoolean(12);
-                String maXacThuc = rs.getString(13);
-                String thoiGianHieuLucMaXacThuc = rs.getString(14);
-                String trangThaiXacThuc = rs.getString(15);
-                String hinhAvatar = rs.getString(16);
-                int isAdmin = rs.getInt(17);
+                String maXacThuc = rs.getString(12);
+                String thoiGianHieuLucMaXacThuc = rs.getString(13);
+                String trangThaiXacThuc = rs.getString(14);
+                String hinhAvatar = rs.getString(15);
+                int isAdmin = rs.getInt(16);
 
                 ketQua = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, ngaySinh,
-                        soDienThoai, email, quocTich, diaChiKhachHang, diaChiNhanHang, dangKyNhanBangTin,
+                        soDienThoai, email, quocTich, diaChiKhachHang, diaChiNhanHang,
                         maXacThuc, thoiGianHieuLucMaXacThuc, trangThaiXacThuc, hinhAvatar, isAdmin);
 
             }
@@ -299,34 +296,7 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
         return ketQua;
     }
 
-    
 
-    public static void main(String[] args) {
-        // Tạo đối tượng KhachHang mẫu để test
-        KhachHang kh = new KhachHang();
-        kh.setMaKhachHang("1740161865375");  // Đảm bảo mã này tồn tại trong DB
-        kh.setHoVaTen("Nguyễn Văn A");
-        kh.setGioiTinh("male");
-        kh.setNgaySinh(Date.valueOf("2000-01-01"));
-        kh.setSoDienThoai("0909123456");
-        kh.setEmail("nguyenvana@example.com");
-        kh.setQuocTich("Vietnam");
-        kh.setDiaChiKhachHang("123 Lê Lợi, Q1");
-        kh.setDiaChiNhanHang("123 Lê Lợi, Q1");
-        kh.setDangKyNhanBangTin(true);
-
-        // Tạo đối tượng DAO và gọi hàm update
-        KhachHangDAO dao = new KhachHangDAO();
-        int ketQua = dao.update(kh);
-
-        if (ketQua > 0) {
-            System.out.println("Cập nhật thành công!");
-        } else {
-            System.out.println("Cập nhật thất bại!");
-        }
-    }
-    
-    
     // Tài
     public boolean checkIsAdmin(KhachHang khachHang) {
         boolean result = false;
@@ -348,7 +318,7 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
         }
         return result;
     }
-    
+
     public int insertInAdmin(KhachHang t) {
         int ketQua = 0;
         System.out.println("Dòng 25 insert");
@@ -395,7 +365,7 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 
         return ketQua;
     }
-    
+
     public int updateInAdmin(KhachHang t) {
         int ketQua = 0;
         try {
@@ -440,7 +410,7 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 
         return ketQua;
     }
-    
+
     public KhachHang selectById(String id) {
         KhachHang ketQua = null;
 
@@ -468,15 +438,14 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
                 String quocTich = rs.getString(9);
                 String diaChiKhachHang = rs.getString(10);
                 String diaChiNhanHang = rs.getString(11);
-                boolean dangKyNhanBangTin = rs.getBoolean(12);
-                String maXacThuc = rs.getString(13);
-                String thoiGianHieuLucMaXacThuc = rs.getString(14);
-                String trangThaiXacThuc = rs.getString(15);
-                String hinhAvatar = rs.getString(16);
-                int isAdmin = rs.getInt(17);
+                String maXacThuc = rs.getString(12);
+                String thoiGianHieuLucMaXacThuc = rs.getString(13);
+                String trangThaiXacThuc = rs.getString(14);
+                String hinhAvatar = rs.getString(15);
+                int isAdmin = rs.getInt(16);
 
                 ketQua = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, ngaySinh,
-                        soDienThoai, email, quocTich, diaChiKhachHang, diaChiNhanHang, dangKyNhanBangTin,
+                        soDienThoai, email, quocTich, diaChiKhachHang, diaChiNhanHang, 
                         maXacThuc, thoiGianHieuLucMaXacThuc, trangThaiXacThuc, hinhAvatar, isAdmin);
 
             }
@@ -488,8 +457,8 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 
         return ketQua;
     }
-    
-     public boolean isUsernameExists(String tenDangNhap) {
+
+    public boolean isUsernameExists(String tenDangNhap) {
         boolean exists = false;
         String sql = "SELECT COUNT(*) FROM KhachHang WHERE tenDangNhap = ?";
         try (Connection conn = JDBCUtil.getConnection();
@@ -505,11 +474,5 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
         }
         return exists;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

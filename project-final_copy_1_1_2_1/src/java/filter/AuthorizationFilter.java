@@ -47,13 +47,13 @@ public class AuthorizationFilter implements Filter {
                 } else if (khachHang.getIsAdmin() != 1) {
                     session.setAttribute("alert", "danger");
                     session.setAttribute("error", "Not permission");
-                    response.sendRedirect(request.getContextPath() + "/khachhang/login.jsp");
+                    response.sendRedirect(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/khachhang/login.jsp");
 
                 }
             } else {
                 session.setAttribute("alert", "danger");
                 session.setAttribute("error", "Not login");
-                response.sendRedirect(request.getContextPath() + "/khachhang/login.jsp");
+                response.sendRedirect(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/khachhang/login.jsp");
             }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

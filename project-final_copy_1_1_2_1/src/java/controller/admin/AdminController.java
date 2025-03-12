@@ -6,6 +6,7 @@
 package controller.admin;
 
 import database.AdminDAO;
+import database.ChiTietDonHangDAO;
 import database.DonHangDAO;
 import database.KhachHangDAO;
 import database.SanPhamDAO;
@@ -86,6 +87,12 @@ public class AdminController extends HttpServlet {
             order(request, response);
         } else if (hanhdong.equals("orderDetails")) {
             orderDetails(request, response);
+        } else if (hanhdong.equals("updateKhachHangInOrder")) {
+            updateKhachHangInOrder(request, response);
+        } else if (hanhdong.equals("editKhachHangInOrder")) {
+            editKhachHangInOrder(request, response);
+        } else if (hanhdong.equals("deleteorder")) {
+            deleteorder(request, response);
         }
     }
 
@@ -733,6 +740,88 @@ public class AdminController extends HttpServlet {
             request.setAttribute("listOderDetails", listOderDetails);
             request.getRequestDispatcher("/admin/orderdetails.jsp").forward(request, response);
         } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void editKhachHangInOrder(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<OrderDetails> listOderDetails = new ArrayList<OrderDetails>();
+            KhachHang kh = new KhachHang();
+            DonHang dh = new DonHang();
+
+            String makhachhang = request.getParameter("makhachhang");
+            String madonhang = request.getParameter("madonhang");
+
+            AdminDAO adao = new AdminDAO();
+            listOderDetails = adao.selectOrderSanPham(madonhang);
+
+            KhachHangDAO khdao = new KhachHangDAO();
+            kh = khdao.selectById(makhachhang);
+
+            DonHangDAO ddao = new DonHangDAO();
+            dh = ddao.selectById(madonhang);
+
+            request.setAttribute("kh", kh);
+            request.setAttribute("dh", dh);
+            request.setAttribute("listOderDetails", listOderDetails);
+            request.setAttribute("nextaction", "updateKhachHangInOrder");
+            request.getRequestDispatcher("/admin/updateKhachHangInOrder.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateKhachHangInOrder(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String makhachhang = request.getParameter("makhachhang");
+            String hovaten = request.getParameter("hovaten");
+            String sodienthoai = request.getParameter("sodienthoai");
+            String email = request.getParameter("email");
+            String diachigiaohang = request.getParameter("diachigiaohang");
+
+            String madonhang = request.getParameter("madonhang");
+
+            KhachHang kh = new KhachHang();
+            kh.setMaKhachHang(makhachhang);
+            kh.setHoVaTen(hovaten);
+            kh.setSoDienThoai(sodienthoai);
+            kh.setEmail(email);
+
+            DonHang dh = new DonHang();
+            dh.setMadonhang(madonhang);
+            dh.setDiachigiaohang(diachigiaohang);
+
+            AdminDAO adao = new AdminDAO();
+            adao.updateDiaChiGiaoHang(dh.getMadonhang(), dh.getDiachigiaohang());
+            adao.updateKhachHangInOrder(kh);
+
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=orderDetails&madonhang=" + madonhang);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteorder(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String orderID = request.getParameter("orderID");
+
+            ChiTietDonHangDAO chiTietDonHangDAO = new ChiTietDonHangDAO();
+            List<SanPham> listProductOrdered = chiTietDonHangDAO.selectProductToRefundSize(orderID);
+            chiTietDonHangDAO.delete(orderID);
+
+            DonHangDAO donHangDAO = new DonHangDAO();
+            donHangDAO.delete(orderID);
+
+            SanPhamDAO sanPhamDAO = new SanPhamDAO();
+            for (SanPham sanPham : listProductOrdered) {
+                sanPhamDAO.refundSize(sanPham);
+            }
+
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=order");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

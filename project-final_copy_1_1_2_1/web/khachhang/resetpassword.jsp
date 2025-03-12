@@ -80,7 +80,7 @@
                                                         <div class="mb-5">
                                                             <div class="text-center mb-4">
                                                                 <a href="#!">
-                                                                    <img src="<%=url1%>/GUI/imgsanpham/2.png" alt="BootstrapBrain Logo" width="175" height="57">
+                                                                    <img src="<%=url1%>/GUI/images/logo.png" alt="BootstrapBrain Logo" width="175" height="57">
                                                                 </a>
                                                             </div>
                                                             <h4 class="text-center">Reset password</h4>

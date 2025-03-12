@@ -66,11 +66,10 @@
                 <div class="container">
 
                     <!--Lấy sản phẩm hiện lên-->
-                    <%  
-                        Integer soluongSanPhamDaBan = (Integer) request.getAttribute("soluongSanPhamDaBan");
+                    <%                        Integer soluongSanPhamDaBan = (Integer) request.getAttribute("soluongSanPhamDaBan");
                         SanPham sp1 = (SanPham) request.getAttribute("sanpham");
-                        String error = request.getAttribute("error")+"";
-                        error =  error.equals("null") ? "" : error;
+                        String error = request.getAttribute("error") + "";
+                        error = error.equals("null") ? "" : error;
 
                         if (sp1 == null) {
                             System.out.println("sp1 bị null");
@@ -250,16 +249,7 @@
                                 <!-- Pills navs -->
                                 <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
                                     <li class="nav-item d-flex" role="presentation">
-                                        <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Specification</a>
-                                    </li>
-                                    <li class="nav-item d-flex" role="presentation">
-                                        <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab" aria-controls="ex1-pills-2" aria-selected="false">Warranty info</a>
-                                    </li>
-                                    <li class="nav-item d-flex" role="presentation">
-                                        <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-3" data-mdb-toggle="pill" href="#ex1-pills-3" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Shipping info</a>
-                                    </li>
-                                    <li class="nav-item d-flex" role="presentation">
-                                        <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab" aria-controls="ex1-pills-4" aria-selected="false">Seller profile</a>
+                                        <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Product details</a>
                                     </li>
                                 </ul>
                                 <!-- Pills navs -->
@@ -289,47 +279,6 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <table class="table border mt-3 mb-2">
-                                            <tr>
-                                                <th class="py-2">Display:</th>
-                                                <td class="py-2">13.3-inch LED-backlit display with IPS</td>
-                                            </tr>
-                                            <tr>
-                                                <th class="py-2">Processor capacity:</th>
-                                                <td class="py-2">2.3GHz dual-core Intel Core i5</td>
-                                            </tr>
-                                            <tr>
-                                                <th class="py-2">Camera quality:</th>
-                                                <td class="py-2">720p FaceTime HD camera</td>
-                                            </tr>
-                                            <tr>
-                                                <th class="py-2">Memory</th>
-                                                <td class="py-2">8 GB RAM or 16 GB RAM</td>
-                                            </tr>
-                                            <tr>
-                                                <th class="py-2">Graphics</th>
-                                                <td class="py-2">Intel Iris Plus Graphics 640</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-                                        Tab content or sample information now <br />
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                    </div>
-                                    <div class="tab-pane fade mb-2" id="ex1-pills-3" role="tabpanel" aria-labelledby="ex1-tab-3">
-                                        Another tab content or sample information now <br />
-                                        Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </div>
-                                    <div class="tab-pane fade mb-2" id="ex1-pills-4" role="tabpanel" aria-labelledby="ex1-tab-4">
-                                        Some other tab content or sample information now <br />
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia deserunt mollit anim id est laborum.
                                     </div>
                                 </div>
                                 <!-- Pills content -->
@@ -353,7 +302,7 @@
                                                 } else {
                                         %>
                                         <div class="d-flex mb-3">
-                                           <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sp.getMasanpham()%>">
+                                            <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sp.getMasanpham()%>">
                                                 <img src="<%=url%>/GUI/imgsanpham/<%=sp.getHinhanhsanpham()%>" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
                                             </a>
                                             <div class="info">

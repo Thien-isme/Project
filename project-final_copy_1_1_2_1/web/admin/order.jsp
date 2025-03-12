@@ -86,21 +86,15 @@
                                                     <td>${listDonHang.khachhang.hoVaTen}</td>
                                                     <td>${listDonHang.khachhang.soDienThoai}</td>
                                                     <td>${listDonHang.khachhang.email}</td>
-<!--                                                    <td>
+                                                    <td>
                                                         <div class="d-inline-flex gap-2">
                                                             <form action="${url}/admin" method="POST" class="d-inline">
-                                                                <input type="hidden" name="hanhdong" value="edituser">
-                                                                <input type="hidden" name="maKhachHang" value="">
-                                                                <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
-                                                            </form>
-
-                                                            <form action="${url}/admin" method="POST" class="d-inline">
-                                                                <input type="hidden" name="hanhdong" value="deleteuser">
-                                                                <input type="hidden" name="maKhachHang" value="">
+                                                                <input type="hidden" name="hanhdong" value="deleteorder">
+                                                                <input type="hidden" name="orderID" value="${listDonHang.madonhang}">
                                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                             </form>
                                                         </div>
-                                                    </td>-->
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>

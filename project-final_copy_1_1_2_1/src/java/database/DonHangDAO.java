@@ -166,6 +166,7 @@ public class DonHangDAO implements DAOInterface<DonHang> {
                 dh.setMadonhang(rs.getString("madonhang"));
                 dh.setNgaydathang(rs.getString("ngaydathang"));
                 dh.setTrangthaidonhang(rs.getString("trangthaidonhang"));
+                dh.setDiachigiaohang(rs.getString("diachigiaohang"));
                 dh.setTongtien(rs.getDouble("tongtien"));
             }
             con.close();

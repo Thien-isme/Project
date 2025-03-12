@@ -143,12 +143,6 @@
                                             </div>
 
                                             <div class="mb-3 d-flex justify-content-between align-items-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" name="dangKyNhanBangTin" id="dangKyNhanBangTin">
-                                                    <label class="form-check-label text-secondary" for="dangKyNhanBangTin">
-                                                        Sign up for email newsletter
-                                                    </label>
-                                                </div>
                                                 <!-- button -->
                                                 <div class="gap-3 d-md-flex justify-content-md-end text-center">
                                                     <button type="submit" class="btn btn-outline-danger">Delete profile</button>

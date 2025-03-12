@@ -32,27 +32,26 @@
             <!-- Thông tin đơn hàng -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5>Order ID: ${donHang.madonhang}<strong></strong></h5>
-                    <p>Ngày đặt hàng: ${donHang.ngaydathang}</p>
-                    <p>Trạng thái: <span class="text-success">${donHang.trangthaidonhang}</span></p>
+                    <h5>Order ID: ${dh.madonhang}<strong></strong></h5>
+                    <p>Ngày đặt hàng: ${dh.ngaydathang}</p>
+                    <p>Trạng thái: <span class="text-success">${dh.trangthaidonhang}</span></p>
                 </div>
             </div>
 
             <!-- Thông tin khách hàng -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5>Thông Tin Khách Hàng</h5>
-                    <p><strong>Ma khach hang: ${khachHang.maKhachHang}</strong> </p>
-                    <p><strong>Họ và tên: ${khachHang.hoVaTen}</strong> </p>
-                    <p><strong>Số điện thoại: ${khachHang.soDienThoai}</strong> </p>
-                    <p><strong>Email: ${khachHang.email}</strong> </p>
-                    <p><strong>Dia chi giao hang: ${donHang.diachigiaohang}</strong> </p>
-                    
                     <form action="${url}/admin" method="GET">
-                        <input type="hidden" name="hanhdong" value="editKhachHangInOrder">
-                        <input type="hidden" name="makhachhang" value="${khachHang.maKhachHang}">
-                        <input type="hidden" name="madonhang" value="${donHang.madonhang}">
-                        <input type="submit" class="btn btn-primary" value="Edit">
+                        <input type="hidden" name="hanhdong" value="updateKhachHangInOrder">
+                        <input type="hidden" name="madonhang" value="${dh.madonhang}">
+                        <input type="hidden" name="makhachhang" value="${kh.maKhachHang}">
+                        <h5>Thông Tin Khách Hàng</h5>
+                        <p><strong>Ma khach hang: ${kh.maKhachHang}</strong> </p>
+                        <p><strong>Họ và tên: <input type="text" name="hovaten" value="${kh.hoVaTen}"></strong> </p>
+                        <p><strong>Số điện thoại: <input type="text" name="sodienthoai" value="${kh.soDienThoai}"></strong> </p>
+                        <p><strong>Email: <input type="text" name="email" value="${kh.email}"></strong> </p>
+                        <p><strong>Dia chi giao hang: <input type="text" name="diachigiaohang" value="${dh.diachigiaohang}"></strong> </p>
+                        <input type="submit" class="btn btn-primary" value="save">
                     </form>
 
                 </div>
@@ -95,7 +94,7 @@
             </table>
 
             <!-- Tổng tiền -->
-            <h3 class="text-end">Tổng: <span class="text-danger"> ${donHang.tongtien} VNĐ</span></h3>
+            <h3 class="text-end">Tổng: <span class="text-danger"> ${dh.tongtien} VNĐ</span></h3>
 
             <!-- Nút Quay lại -->
 

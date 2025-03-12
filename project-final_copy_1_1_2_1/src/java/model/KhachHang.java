@@ -15,7 +15,6 @@ public class KhachHang {
     private String quocTich;
     private String diaChiKhachHang;
     private String diaChiNhanHang;
-    private boolean dangKyNhanBangTin;
     private String maXacThuc;
     private String thoiGianHieuLucMaXacThuc;
     private String trangThaiXacThuc;
@@ -37,7 +36,7 @@ public class KhachHang {
         this.matKhau = matKhau;
     }
 
-    public KhachHang(String maKhachHang, String tenDangNhap, String matKhau, String hoVaTen, String gioiTinh, Date ngaySinh, String soDienThoai, String email, String quocTich, String diaChiKhachHang, String diaChiNhanHang, boolean dangKyNhanBangTin, String maXacThuc, String thoiGianHieuLucMaXacThuc, String trangThaiXacThuc, String hinhAvatar, int isAdmin) {
+    public KhachHang(String maKhachHang, String tenDangNhap, String matKhau, String hoVaTen, String gioiTinh, Date ngaySinh, String soDienThoai, String email, String quocTich, String diaChiKhachHang, String diaChiNhanHang, String maXacThuc, String thoiGianHieuLucMaXacThuc, String trangThaiXacThuc, String hinhAvatar, int isAdmin) {
         this.maKhachHang = maKhachHang;
         this.tenDangNhap = tenDangNhap;
         this.matKhau = matKhau;
@@ -49,7 +48,6 @@ public class KhachHang {
         this.quocTich = quocTich;
         this.diaChiKhachHang = diaChiKhachHang;
         this.diaChiNhanHang = diaChiNhanHang;
-        this.dangKyNhanBangTin = dangKyNhanBangTin;
         this.maXacThuc = maXacThuc;
         this.thoiGianHieuLucMaXacThuc = thoiGianHieuLucMaXacThuc;
         this.trangThaiXacThuc = trangThaiXacThuc;
@@ -57,7 +55,7 @@ public class KhachHang {
         this.isAdmin = isAdmin;
     }
 
-    public KhachHang(String maKhachHang, String hoVaTen, String gioiTinh, Date ngaySinh, String soDienThoai, String email, String quocTich, String diaChiKhachHang, String diaChiNhanHang, boolean dangKyNhanBangTin) {
+    public KhachHang(String maKhachHang, String hoVaTen, String gioiTinh, Date ngaySinh, String soDienThoai, String email, String quocTich, String diaChiKhachHang, String diaChiNhanHang) {
         this.maKhachHang = maKhachHang;
         this.hoVaTen = hoVaTen;
         this.gioiTinh = gioiTinh;
@@ -67,7 +65,6 @@ public class KhachHang {
         this.quocTich = quocTich;
         this.diaChiKhachHang = diaChiKhachHang;
         this.diaChiNhanHang = diaChiNhanHang;
-        this.dangKyNhanBangTin = dangKyNhanBangTin;
     }
 
     public KhachHang(String maKhachHang, String tenDangNhap, String matKhau, String hoVaTen, String gioiTinh, Date ngaySinh, String soDienThoai, String email, String quocTich, String diaChiKhachHang, String diaChiNhanHang, String hinhAvatar, int isAdmin) {
@@ -85,8 +82,6 @@ public class KhachHang {
         this.hinhAvatar = hinhAvatar;
         this.isAdmin = isAdmin;
     }
-
-    
 
     public int getIsAdmin() {
         return isAdmin;
@@ -182,14 +177,6 @@ public class KhachHang {
 
     public void setDiaChiNhanHang(String diaChiNhanHang) {
         this.diaChiNhanHang = diaChiNhanHang;
-    }
-
-    public boolean isDangKyNhanBangTin() {
-        return dangKyNhanBangTin;
-    }
-
-    public void setDangKyNhanBangTin(boolean dangKyNhanBangTin) {
-        this.dangKyNhanBangTin = dangKyNhanBangTin;
     }
 
     public String getMaXacThuc() {

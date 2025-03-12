@@ -24,7 +24,7 @@ import utils.JDBCUtil;
  * @author Admin
  */
 public class AdminDAO {
-    
+
     public List<SanPham> selectAllSanPham() {
         List<SanPham> listSanPham = new ArrayList<>();
         String sql = " select \n"
@@ -33,11 +33,11 @@ public class AdminDAO {
                 + "sz.size, sz.soluong\n"
                 + "from sanpham s join categories c ON c.categoryID = s.categoryID\n"
                 + "join sanpham_size sz on sz.masanpham = s.masanpham ";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         try {
             // Bước 1: Lấy Connection
             conn = JDBCUtil.getConnection();
@@ -66,22 +66,22 @@ public class AdminDAO {
                 listSanPham.add(sp);
             }
             JDBCUtil.close(conn);
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return listSanPham;
     }
-    
+
     public List<Categories> selectType() {
         List<Categories> listCategories = new ArrayList<>();
         String sql = " SELECT * FROM categories ";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         try {
             // Bước 1: Lấy Connection
             conn = JDBCUtil.getConnection();
@@ -98,14 +98,14 @@ public class AdminDAO {
                 listCategories.add(c);
             }
             JDBCUtil.close(conn);
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return listCategories;
     }
-    
+
     public int insertSanPham(SanPham sp) {
         int ketQua = 0;
         try {
@@ -135,17 +135,17 @@ public class AdminDAO {
 
             // B5: Đóng Connection
             JDBCUtil.close(c);
-            
+
         } catch (SQLException e) {
             System.out.println("Insert sp thất bại");
             e.printStackTrace();
             e.getErrorCode();
             e.getSQLState();
         }
-        
+
         return ketQua;
     }
-    
+
     public int insertSize(SanPham sp) {
         int ketQua = 0;
         try {
@@ -168,67 +168,67 @@ public class AdminDAO {
 
             // B5: Đóng Connection
             JDBCUtil.close(c);
-            
+
         } catch (SQLException e) {
             System.out.println("Insert sp1 thất bại");
             e.printStackTrace();
             e.getErrorCode();
             e.getSQLState();
         }
-        
+
         return ketQua;
     }
-    
+
     public boolean delete(SanPham sp) {
         String sql = " DELETE FROM sanpham WHERE masanpham = ? ";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
-        
+
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, sp.getMasanpham());
-            
+
             stmt.executeUpdate();
             JDBCUtil.close(conn);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            
+
         }
         return false;
     }
-    
+
     public boolean deleteSanPhamSize(SanPham sp) {
         String sql = " DELETE FROM sanpham_size WHERE masanpham = ? and size = ?";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
-        
+
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, sp.getMasanpham());
             stmt.setString(2, sp.getKichco());
-            
+
             stmt.executeUpdate();
             JDBCUtil.close(conn);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            
+
         }
         return false;
     }
-    
+
     public boolean updateSanPhamSize(SanPham sp) {
         String sqlCheck = "SELECT COUNT(*) FROM sanpham_size WHERE masanpham = ? AND size = ?";
         String sqlUpdate = "UPDATE sanpham_size SET soluong = ? WHERE masanpham = ? AND size = ?";
         String sqlInsert = "INSERT INTO sanpham_size (masanpham, size, soluong) VALUES (?, ?, ?)";
-        
+
         try (Connection conn = JDBCUtil.getConnection();
                 PreparedStatement checkStmt = conn.prepareStatement(sqlCheck);
                 PreparedStatement updateStmt = conn.prepareStatement(sqlUpdate);
@@ -237,11 +237,11 @@ public class AdminDAO {
             // Kiểm tra xem sản phẩm có tồn tại hay không
             checkStmt.setString(1, sp.getMasanpham());
             checkStmt.setString(2, sp.getKichco());
-            
+
             ResultSet rs = checkStmt.executeQuery();
             rs.next();
             int count = rs.getInt(1);
-            
+
             if (count > 0) {
                 // Nếu đã tồn tại thì UPDATE
                 updateStmt.setInt(1, sp.getSoluong());
@@ -261,7 +261,7 @@ public class AdminDAO {
         }
         return false;
     }
-    
+
     public List<KhachHang> userList() {
         List<KhachHang> list = new ArrayList<KhachHang>();
         try {
@@ -293,7 +293,7 @@ public class AdminDAO {
         }
         return list;
     }
-    
+
     public boolean deleteUser(KhachHang kh) {
         String sql = " UPDATE khachhang\n"
                 + "SET \n"
@@ -307,40 +307,39 @@ public class AdminDAO {
                 + "    quocTich = NULL,\n"
                 + "    diaChiKhachHang = NULL,\n"
                 + "    diaChiNhanHang = NULL,\n"
-                + "    dangKyNhanBangTin = NULL,\n"
                 + "    maXacThuc = NULL,\n"
                 + "    thoiGianHieuLucMaXacThuc = NULL,\n"
                 + "    trangThaiXacThuc = NULL,\n"
                 + "    hinhAvatar = NULL,\n"
                 + "    isAdmin = NULL\n"
                 + "WHERE maKhachHang = ?; ";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
-        
+
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, kh.getMaKhachHang());
-            
+
             stmt.executeUpdate();
             JDBCUtil.close(conn);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            
+
         }
         return false;
     }
-    
+
     public List<DonHang> selectAllDonHang() {
         List<DonHang> listDonHang = new ArrayList<>();
         String sql = " SELECT dh.*, kh.*\n"
                 + "FROM donhang dh\n"
                 + "JOIN khachhang kh ON dh.makhachhang = kh.makhachhang"
                 + " Order by dh.ngaydathang desc ";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -355,32 +354,32 @@ public class AdminDAO {
 
             // Bước 3: Thực thi truy vấn
             rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 d = new DonHang();
                 d.setMadonhang(rs.getString("madonhang"));
                 d.setMakhachhang(rs.getString("makhachhang"));
                 d.setNgaydathang(rs.getString("ngaydathang"));
                 d.setTrangthaidonhang(rs.getString("trangthaidonhang"));
-                
+
                 kh = new KhachHang();
                 kh.setHoVaTen(rs.getString("hovaten"));
                 kh.setSoDienThoai(rs.getString("sodienthoai"));
                 kh.setEmail(rs.getString("email"));
-                
+
                 d.setKhachhang(kh);
-                
+
                 listDonHang.add(d);
-                
+
             }
 
             // Bước 4: Xử lý dữ liệu
             JDBCUtil.close(conn);
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return listDonHang;
     }
 
@@ -392,7 +391,7 @@ public class AdminDAO {
                 + "JOIN sanpham sp ON sp.masanpham = ctdh.masanpham\n"
                 + "JOIN categories c on c.categoryID = sp.categoryID\n"
                 + "WHERE dh.madonhang = ? ";
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -402,19 +401,19 @@ public class AdminDAO {
         Categories categories = null;
         try {
             conn = JDBCUtil.getConnection();
-            
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, orderID);
-            
+
             rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
-                
+
                 ctdh = new ChiTietDonHang();
                 ctdh.setSize(rs.getString("size"));
                 ctdh.setSoluongsanphammua(rs.getInt("soluongsanphammua"));
                 ctdh.setGiaban(rs.getDouble("giaban"));
-                
+
                 sp = new SanPham();
                 sp.setMasanpham(rs.getString("masanpham"));
                 sp.setTensanpham(rs.getString("tensanpham"));
@@ -423,27 +422,27 @@ public class AdminDAO {
                 sp.setGianhap(rs.getDouble("gianhap"));
                 sp.setGiaban(rs.getDouble("giaban"));
                 sp.setGiamgia(rs.getInt("giamgia"));
-                
+
                 categories = new Categories();
                 categories.setCategoryName(rs.getString("categoryName"));
-                
+
                 orderDetails = new OrderDetails();
                 orderDetails.setSanPham(sp);
                 orderDetails.setChiTietDonHang(ctdh);
                 orderDetails.setCategories(categories);
-                
+
                 listOrderDetails.add(orderDetails);
             }
-            
+
             JDBCUtil.close(conn);
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return listOrderDetails;
     }
-    
+
     public KhachHang selectKhachHangByOrderID(String madonhang) {
         KhachHang kh = null;
         try {
@@ -454,6 +453,7 @@ public class AdminDAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 kh = new KhachHang();
+                kh.setMaKhachHang(rs.getString("makhachhang"));
                 kh.setHoVaTen(rs.getString("hovaten"));
                 kh.setSoDienThoai(rs.getString("sodienthoai"));
                 kh.setEmail(rs.getString("email"));
@@ -464,13 +464,53 @@ public class AdminDAO {
         }
         return kh;
     }
-    
-    public static void main(String[] args) {
-        List<OrderDetails> listOrderDetails = new ArrayList<OrderDetails>();
-        AdminDAO ado = new AdminDAO();
-        listOrderDetails = ado.selectOrderSanPham("1741753272638");
-        for (OrderDetails listOrderDetail : listOrderDetails) {
-            System.out.println(listOrderDetail.getSanPham().getGiaban());
+
+    public boolean updateDiaChiGiaoHang(String madonhang, String diachigiaohang) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = " UPDATE donhang SET diachigiaohang = ? WHERE madonhang = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, diachigiaohang);
+            ps.setString(2, madonhang);
+            ps.executeUpdate();
+            con.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean updateKhachHangInOrder(KhachHang kh) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = " UPDATE khachhang SET hovaten = ?, sodienthoai = ?, email = ? WHERE makhachhang = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, kh.getHoVaTen());
+            ps.setString(2, kh.getSoDienThoai());
+            ps.setString(3, kh.getEmail());
+            ps.setString(4, kh.getMaKhachHang());
+            ps.executeUpdate();
+            con.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+       AdminDAO a = new AdminDAO();
+       a.updateDiaChiGiaoHang("1741679675975", "123123");
+       KhachHang kh = new KhachHang();
+       kh.setMaKhachHang("1");
+       kh.setHoVaTen("test");
+       kh.setSoDienThoai("123");
+       kh.setEmail("test@gmail.com");
+       if(a.updateKhachHangInOrder(kh) == true){
+           System.out.println("update dung");
+       } else
+            System.out.println("update sai");
+       
     }
 }
