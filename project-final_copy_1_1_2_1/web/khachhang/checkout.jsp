@@ -258,15 +258,17 @@
 
                                             <div class="row mb-3">
 
-
-                                                <div class="card-item" style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; width: 60%; max-width: 400px;">
+                                                <label for="<%=maGiamGia.getIdMaGiamGia()%>">
+                                                    <div class="card-item" style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; height: 100%; width: 60%; max-width: 400px;">
                                                     <img class="img-fluid" src="<%=url%>/GUI/imgvoucher/<%=maGiamGia.getHinhanhvoucher()%>" style="width: 62px; height: 62px; object-fit: cover;">
                                                     <div style="flex: 1;">
                                                         <p style="margin: 0; font-size: 14px; font-weight: bold;"><%= maGiamGia.getTenMaGiamGia()%></p>
                                                         <small class="text-muted">EXP: <%= maGiamGia.getNgayHetHan()%></small>
                                                     </div>
-                                                    <input name="idmagiamgia" type="radio" value="<%=maGiamGia.getIdMaGiamGia()%>">
+                                                        <input name="idmagiamgia" id="<%=maGiamGia.getIdMaGiamGia()%>" type="radio" value="<%=maGiamGia.getIdMaGiamGia()%>">
                                                 </div>
+                                                </label>
+                                                
                                             </div>
                                             <%
                                                     }

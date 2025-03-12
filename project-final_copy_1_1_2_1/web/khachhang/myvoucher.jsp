@@ -41,7 +41,7 @@
                 <img class="card-img" alt="anh voucher" src="<%=url1%>/GUI/imgvoucher/<%=magiamgia.getHinhanhvoucher()%>">
                 <div class="card-body">
                     <p style="font-size: 24px;font-weight: 500 " class="card-title"><%=magiamgia.getTenMaGiamGia() %></p>
-                    <p class="card-text"> <h5>EXP: <small class="text-muted"><%=magiamgia.getNgayHetHan() %></small></h5> </p>
+                    <p class="card-text"> <h5>EXP: <small class="text-muted"><%=magiamgia.getNgayHetHan()%></small></h5> </p>
                 </div>
                 <div class="text-center d-flex justify-content-center align-items-center">Quantity: <%=magiamgia.getSoLuong()%> </div>
 

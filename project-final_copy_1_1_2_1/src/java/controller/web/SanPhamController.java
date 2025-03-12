@@ -276,8 +276,11 @@ public class SanPhamController extends HttpServlet {
             List<SanPham> listsoluongsize = dao.selectsizecuamasanphamconhang(masanpham);
 
             List<SanPham> list = dao.selectAll(); // list cho 4 sản phẩm bên dưới
-
+            int soluongSanPhamDaBan = dao.soLuongSanPhamDaBan(masanpham);
+            
+            
             request.setAttribute("list", list);
+            request.setAttribute("soluongSanPhamDaBan", soluongSanPhamDaBan);
             request.setAttribute("listsoluongsize", listsoluongsize);
             request.setAttribute("sanpham", sp1);
             request.getRequestDispatcher("/GUI/product-details.jsp").forward(request, response);

@@ -79,13 +79,13 @@
                     </ul>	
                 </div>
 
-
+<a href="<%= url%>/khachhang/cart.jsp">
+                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                </a>
                 <%
                     }
                 %>                    
-                <a href="<%= url%>/khachhang/cart.jsp">
-                    <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                </a>
+                
 
 
                 <form class="d-flex ms-auto" role="search" action="<%= url%>/san-pham" method="GET">

@@ -51,7 +51,7 @@
             <!-- header -->
             <%@include file="/GUI/header.jsp" %>
             <!-- header -->
-
+            
             <section class="bg-light p-3 p-md-4 p-xl-5">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -82,6 +82,7 @@
                                                     <input class="form-control" name="hanhdong" value="login" type="hidden">
                                                     <div class="row gy-3 overflow-hidden">
                                                         <div class="col-12">
+                                                            <%= request.getParameter("error") %>
                                                             <div class="form-floating mb-3">
                                                                 <input type="text" class="form-control" name="username" id="username" placeholder="" required>
                                                                 <label for="username" class="form-label">User name</label>

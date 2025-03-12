@@ -57,7 +57,7 @@
                             <!-- Tên shop -->
                             <h6 class="mb-0">THT Store</h6>
                             <!-- Link "Xem Shop" -->
-                            <a href="#" class="btn btn-link ms-2">View Shop</a>
+                            <a href="<%=url%>/san-pham?hanhdong=searchByConditions&types=&color=&size=&price=" class="btn btn-link ms-2">View Shop</a>
                         </div>
                         <div class="col-md-3">
                             <h6>OrderID: <%=oh.getMadonhang()%> </h6> 
@@ -86,7 +86,7 @@
                         <!-- Thông tin sản phẩm -->
                         <div class="col-md-4">
                             <h5 class="mb-1">
-                                Nón Bảo Hiểm THT-001
+                                Nón Bảo Hiểm <%=sp.getMasanpham() %>
                             </h5>
                             <small class="text-muted">Type: <%=sp.getKieumau()%></small> <br>
                             <small class="text-muted">Size: <%=sp.getKichco()%></small> <br>

@@ -66,7 +66,9 @@
                 <div class="container">
 
                     <!--Lấy sản phẩm hiện lên-->
-                    <%                        SanPham sp1 = (SanPham) request.getAttribute("sanpham");
+                    <%  
+                        Integer soluongSanPhamDaBan = (Integer) request.getAttribute("soluongSanPhamDaBan");
+                        SanPham sp1 = (SanPham) request.getAttribute("sanpham");
                         String error = request.getAttribute("error")+"";
                         error =  error.equals("null") ? "" : error;
 
@@ -137,7 +139,7 @@
                                             4.5
                                         </span>
                                     </div>
-                                    <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                                    <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i><%=soluongSanPhamDaBan%></span>
                                     <!--<span class="text-success ms-2">In stock</span>-->
                                 </div>
 
@@ -212,7 +214,7 @@
                                             </form>  -->
                                             <!--<a href="<%= url%>/khachhang/checkout.jsp?masanpham=THT-002&size=">Buynow</a>-->
                                             <!--<a href="#" onclick="redirectToCheckout();">Buy Now</a>-->
-                                            <button type="submit" name="hanhdong" value="buynow" class="btn btn-primary mb-2">Buy Now</button>
+                                            <button type="submit" name="hanhdong" value="buynow" class="btn btn-danger mb-2">Buy Now</button>
                                         </div>
 
                                         <div class="form-group col-5">
@@ -351,7 +353,7 @@
                                                 } else {
                                         %>
                                         <div class="d-flex mb-3">
-                                            <a href="#" class="me-3">
+                                           <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sp.getMasanpham()%>">
                                                 <img src="<%=url%>/GUI/imgsanpham/<%=sp.getHinhanhsanpham()%>" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
                                             </a>
                                             <div class="info">

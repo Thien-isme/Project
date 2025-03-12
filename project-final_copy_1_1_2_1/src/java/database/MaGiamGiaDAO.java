@@ -15,7 +15,7 @@ public class MaGiamGiaDAO implements DAOInterface<MaGiamGia> {
     @Override
     public ArrayList<MaGiamGia> selectAll() {
         ArrayList<MaGiamGia> list = new ArrayList<>();
-        String query = "SELECT * FROM magiamgia";
+        String query = "SELECT * FROM magiamgia where soluongvoucherconlai > 0 ";
 
         try (Connection conn = JDBCUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query);

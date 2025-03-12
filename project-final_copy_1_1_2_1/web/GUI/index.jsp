@@ -1,3 +1,4 @@
+<%@page import="utils.Money"%>
 <%@page import="model.MaGiamGia"%>
 <%@page import="database.MaGiamGiaDAO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -49,47 +50,9 @@
     </head>
 
     <body>
-        <%
-
-        %>
+        <%@include file="header.jsp" %>
         <div class="hero_area">
-            <!-- header -->
-            <%@include file="header.jsp" %>
-
-
-            <!-- header -->
-
-            <!-- slider section -->
-            <section class="slider_section">
-                <div class="slider_container">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="detail-box">
-                                                <h1>
-                                                    <%=khachHang.getMaKhachHang()%>
-                                                </h1>
-                                                <p>
-                                                    text
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 ">
-                                            <div class="img-box">
-                                                <img src="<%= url1%>/GUI/images/saving-img.png" alt="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- end slider section -->
+            
 
 
 
@@ -117,31 +80,44 @@
                                     count++;
                         %>
                         <div class="col-sm-6 col-md-4 col-lg-3">
-                            <div class="box">
-                                <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sanPham.getMasanpham()%>">
-                                    <div class="img-box">
-                                        <img src="<%= url1%>/GUI/imgsanpham/<%=sanPham.getHinhanhsanpham()%>" alt="Ảnh nón">
-                                    </div>
-                                    <div class="detail-box">
-                                        <h6>
-                                            Ring
-                                        </h6>
-                                        <h6>
-                                            Price
-                                            <span>
-                                                $200
-                                            </span>
-                                        </h6>
-                                    </div>
-                                    <div class="new">
-                                        <span>
-                                            New
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
+                        <div class="box">
+                            <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sanPham.getMasanpham()%>">
+                                <div class="img-name">
+                                    <h6 class="col-12 text-center"><%=sanPham.getTensanpham()%> <%=sanPham.getMasanpham()%>  </h6>
+                                </div>
+                                <div class="img-box">
+                                    <img src="<%=url1%>/GUI/imgsanpham/<%=sanPham.getHinhanhsanpham()%>" alt="" />
+                                </div>
+                                <div class="detail-box row">
+                                    <h6 class="col-12 text-center">
+                                        Price
+                                        <span>   <%=Money.getMoney(sanPham.getGiaban()) %> </span>
+                                    </h6>
+                                </div>
 
+                            </a>
+                            <form action="<%=url1%>/khach-hang" method="get">
+                                <input type="hidden" name="hanhdong" value="addtocart">
+
+                                <input type="hidden" name="masanpham" value="<%=sanPham.getMasanpham()%>">
+                                <input type="hidden" name="size" value="M">
+                                <input type="hidden" name="soluong" value="1">
+                                <input type="hidden" name="nextpage" value="shop.jsp">
+
+                                <!--                                insert into giohang(makhachhang, masanpham, size, soluong)
+                                                                values ('1','THT-001','',1)-->
+
+                                <div class="text-center">
+                                    <button class="img-name bg-primary">
+                                        <a style="color: white" href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sanPham.getMasanpham()%>"> Add to card </a>
+                                    </button>
+                                </div>
+                            </form> 
+
+                            
+                            </a>
                         </div>
+                    </div>   
                         <%
                                 }
                             }
@@ -162,7 +138,10 @@
             <%--<%@include file="../GUI/voucherLink.jsp" %>--%>
 
             <div class="row">
-
+                <h2 style="text-align: center">
+                            Voucher for you
+                        </h2>
+                <div  class="col-2"> </div>
                 <%
 
                     List<MaGiamGia> listMaGiamGia = (List<MaGiamGia>) request.getAttribute("listmagiamgia");
@@ -170,25 +149,27 @@
                     if (listMaGiamGia != null && !listMaGiamGia.isEmpty()) {
                         for (MaGiamGia maGiamGia : listMaGiamGia) {
                 %>   
-                <!-- <div  class="col-1"> </div> -->
-                <div  class="col-3 row">
-                    <div class="card-item">
-                        <img class="card-img row " alt="anh voucher" src="<%=url1%>/GUI/imgvoucher/<%=maGiamGia.getHinhanhvoucher()%>">
+
+                <div  class="col-4 row">
+                    <div class="col-10 row card-item">
+                        <img class="card-img row " height="40px"  alt="anh voucher" src="<%=url1%>/GUI/imgvoucher/<%=maGiamGia.getHinhanhvoucher()%>">
                         <div class="card-body row">
                             <p style="font-size: 24px;font-weight: 500 " class="card-title"><%=maGiamGia.getTenMaGiamGia()%></p>
                             <p class="card-text"> <h5>EXP: <small class="text-muted"><%=maGiamGia.getNgayHetHan()%></small></h5> </p>
                         </div>
 
                     </div>
-                    <form class="card-getvalue" action="khach-hang" method="get">
-                                                <input type="hidden" name="hanhdong" value="getvoucher" >
+                    <div class="col-2 d-flex justify-content-center align-items-center">
+                        <form class="card-getvalue" action="khach-hang" method="get">
+                            <input type="hidden" name="hanhdong" value="getvoucher" >
 
-                        <input type="hidden" name="idmagiamgia" value="<%=maGiamGia.getIdMaGiamGia()%>" >
-                        <input type="submit" class="btn btn-primary" value="Get" >
-                    </form>
+                            <input type="hidden" name="idmagiamgia" value="<%=maGiamGia.getIdMaGiamGia()%>" >
+                            <input type="submit" class="btn btn-primary" value="Get" >
+                        </form>
+                    </div>  
                 </div>
 
-                <!--<div  class="col-2"></div>-->
+                <div  class="col-1"> </div>
                 <%
                         }
                     }
@@ -201,9 +182,9 @@
             <!-- end gift section -->
 
 
-            <%@include file="footer.jsp" %>
+           
         </div>
-
+ <%@include file="footer.jsp" %>
         <!-- end hero area -->
 
 

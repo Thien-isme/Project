@@ -595,4 +595,31 @@ public class SanPhamDAO implements DAOInterface<SanPham> {
         return ketQua;
     }
 
+    public int soLuongSanPhamDaBan(String masanpham) {
+        int soLuongSanPhamDaBan = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = " select count(c.masanpham) as soluongsanphamdaban\n "
+                    + " from chitietdonhang c\n "
+                    + " where c.masanpham = ? ";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, masanpham);
+        
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                soLuongSanPhamDaBan = rs.getInt("soluongsanphamdaban");
+            }
+                
+            JDBCUtil.close(con);
+
+        } catch (Exception e) {
+            System.out.println("Lỗi ở updateAvatar");
+            e.printStackTrace();
+        }
+
+        return soLuongSanPhamDaBan;
+    }
+
 }

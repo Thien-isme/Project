@@ -1,3 +1,4 @@
+<%@page import="utils.Money"%>
 <%@page import="java.util.ArrayList"%>
 <%
     String url1 = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
@@ -50,12 +51,14 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     </head>
 
     <body>
+         <%@include file="header.jsp" %>
         <div class="hero_area">
             <!-- header section strats -->
-            <%@include file="header.jsp" %>
+           
             <!-- end header section -->
         </div>
         <!-- end hero area -->
@@ -216,7 +219,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row ">
                     <%  SanPhamDAO dao = new SanPhamDAO();
 
                         ArrayList<SanPham> list = (ArrayList< SanPham>) session.getAttribute("list");
@@ -258,7 +261,7 @@
                                 <div class="detail-box row">
                                     <h6 class="col-12 text-center">
                                         Price
-                                        <span> $<%=sanPham.getGiaban()%> </span>
+                                        <span> <%= Money.getMoney(sanPham.getGiaban()) %> </span>
                                     </h6>
                                 </div>
 
@@ -275,8 +278,8 @@
                                                                 values ('1','THT-001','',1)-->
 
                                 <div class="text-center">
-                                    <button class="img-name ">
-                                        <a href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sanPham.getMasanpham()%>"> Add to card </a>
+                                    <button class="img-name bg-primary">
+                                        <a style="color: white" href="<%=url%>/san-pham?hanhdong=viewproductdetail&masanpham=<%=sanPham.getMasanpham()%>"> Add to card </a>
                                     </button>
                                 </div>
                             </form> 
@@ -299,7 +302,7 @@
 
 
                 <!--Chuyển trang để hiện thêm sản phẩm-->
-                <div class="d-flex justify-content-center" >
+                <div class="d-flex justify-content-center mt-5" >
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item"><a class="page-link" href="">Previous</a></li>
@@ -319,63 +322,14 @@
 
 
 
-                <div class="btn-box">
-                    <a href=""> View All Products </a>
-                </div>
+              
             </div>
         </section>
 
         <!-- end shop section -->
 
         <!-- info section -->
-        <section class="info_section layout_padding2-top">
-            <div class="social_container">
-                <div class="social_box">
-                    <a href="">
-                        <i class="fa fa-facebook" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="info_container">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                            <h6>Text</h6>
-                            <p>text</p>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <h6>Text</h6>
-                            <p>Text</p>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <h6>Text</h6>
-                            <div class="info_link-box">
-                                <a href="">
-                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                    <span> text </span>
-                                </a>
-                                <a href="">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    <span>text</span>
-                                </a>
-                                <a href="">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    <span>text</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- footer section -->
-            <footer class="footer_section">
-                <div class="container">
-                    <p>&copy; <span id="displayYear"></span> All Rights Reserved By</p>
-                </div>
-            </footer>
-            <!-- footer section -->
-        </section>
-        <!-- end info section -->
+        <%@include file="footer.jsp" %>
 
         <script src=""></script>
         <script src="<%=url1%>js/bootstrap.js"></script>
