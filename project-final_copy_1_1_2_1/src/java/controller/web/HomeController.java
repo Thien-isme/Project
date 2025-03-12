@@ -8,10 +8,6 @@ package controller.web;
 import database.MaGiamGiaDAO;
 import database.SanPhamDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -24,7 +20,6 @@ import model.Item;
 import model.MaGiamGia;
 import model.Order;
 import model.SanPham;
-import utils.JDBCUtil;
 
 /**
  *

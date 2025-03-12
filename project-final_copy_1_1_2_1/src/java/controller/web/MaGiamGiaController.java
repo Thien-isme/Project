@@ -8,7 +8,6 @@ package controller.web;
 import database.KhachHang_MaGiamGiaDAO;
 import database.MaGiamGiaDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

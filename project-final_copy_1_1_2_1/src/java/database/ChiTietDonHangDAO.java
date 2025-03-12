@@ -12,10 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.ChiTietDonHang;
-import model.GioHang;
 import model.SanPham;
 import utils.JDBCUtil;
-import utils.Time;
 
 /**
  *

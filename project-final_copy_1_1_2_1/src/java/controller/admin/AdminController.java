@@ -6,6 +6,7 @@
 package controller.admin;
 
 import database.AdminDAO;
+import database.DonHangDAO;
 import database.KhachHangDAO;
 import database.SanPhamDAO;
 import java.io.File;
@@ -22,10 +23,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import model.Categories;
+import model.DonHang;
 import model.KhachHang;
+import model.OrderDetails;
 import model.SanPham;
 import utils.Money;
 
@@ -80,6 +82,10 @@ public class AdminController extends HttpServlet {
             adduser(request, response);
         } else if (hanhdong.equals("deleteuser")) {
             deleteuser(request, response);
+        } else if (hanhdong.equals("order")) {
+            order(request, response);
+        } else if (hanhdong.equals("orderDetails")) {
+            orderDetails(request, response);
         }
     }
 
@@ -350,7 +356,7 @@ public class AdminController extends HttpServlet {
                 }
 
             } catch (NumberFormatException e) {
-                response.sendRedirect(request.getContextPath()+"/admin?hanhdong=addProduct");
+                response.sendRedirect(request.getContextPath() + "/admin?hanhdong=addProduct");
                 return;
             }
             // Chỉ kiểm tra masanpham và tensanpham, các trường khác có thể null
@@ -364,7 +370,7 @@ public class AdminController extends HttpServlet {
             // Kiểm tra sản phẩm có tồn tại không
             SanPhamDAO spdao = new SanPhamDAO();
             if (spdao.selectById(masanpham) != null) {
-                response.sendRedirect(request.getContextPath()+"/admin?hanhdong=addProduct");
+                response.sendRedirect(request.getContextPath() + "/admin?hanhdong=addProduct");
                 return;
             }
 
@@ -382,7 +388,7 @@ public class AdminController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                response.sendRedirect(request.getContextPath()+"/admin?hanhdong=addProduct");
+                response.sendRedirect(request.getContextPath() + "/admin?hanhdong=addProduct");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -446,7 +452,7 @@ public class AdminController extends HttpServlet {
                 }
                 System.out.println("Xoa thanh cong");
             }
-            response.sendRedirect(request.getContextPath()+"/admin?hanhdong=load");
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=load");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -587,7 +593,7 @@ public class AdminController extends HttpServlet {
                 request.setAttribute("khachHang", khachHang);
             }
 //            response.sendRedirect("/project-final/admin?hanhdong=user");
-            response.sendRedirect(request.getContextPath()+"/admin?hanhdong=user");
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=user");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -599,7 +605,7 @@ public class AdminController extends HttpServlet {
 
             request.setAttribute("nextaction", "adduser");
             request.setAttribute("kh", kh);
-            response.sendRedirect(request.getContextPath()+"/admin/adduser.jsp");
+            response.sendRedirect(request.getContextPath() + "/admin/adduser.jsp");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -637,14 +643,14 @@ public class AdminController extends HttpServlet {
         if (tenDangNhap == null || tenDangNhap.trim().isEmpty()
                 || matKhau == null || matKhau.trim().isEmpty()) {
             System.out.println("ten dang nhap == null || mat khau == null");
-            response.sendRedirect(request.getContextPath()+"/admin?hanhdong=createuser");
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=createuser");
             return;
         }
 
         KhachHangDAO khdao = new KhachHangDAO();
         if (khdao.isUsernameExists(tenDangNhap)) {
             System.out.println("ten dang nhap da ton tai");
-            response.sendRedirect(request.getContextPath()+"/admin?hanhdong=createuser");
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=createuser");
             return;
         }
 
@@ -663,7 +669,7 @@ public class AdminController extends HttpServlet {
                 request.setAttribute("khachHang", khachHang);
                 addhinhavatar(request, response);
             }
-            response.sendRedirect(request.getContextPath()+"/admin?hanhdong=user");
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=user");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -682,9 +688,51 @@ public class AdminController extends HttpServlet {
                 adao.deleteUser(kh);
                 System.out.println("Xoa thanh cong");
             }
-            response.sendRedirect(request.getContextPath()+"/admin?hanhdong=user");
+            response.sendRedirect(request.getContextPath() + "/admin?hanhdong=user");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void order(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+
+            List<DonHang> listDonHang = new ArrayList<DonHang>();
+
+            AdminDAO adao = new AdminDAO();
+            listDonHang = adao.selectAllDonHang();
+
+            System.out.println(listDonHang.size());
+
+            request.setAttribute("listDonHang", listDonHang);
+            request.getRequestDispatcher("/admin/order.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void orderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String madonhang = request.getParameter("madonhang");
+            System.out.println(madonhang);
+
+            List<OrderDetails> listOderDetails = new ArrayList<OrderDetails>();
+            KhachHang khachHang = new KhachHang();
+            DonHang donHang = new DonHang();
+
+            AdminDAO adao = new AdminDAO();
+            DonHangDAO dAO = new DonHangDAO();
+
+            listOderDetails = adao.selectOrderSanPham(madonhang);
+
+            khachHang = adao.selectKhachHangByOrderID(madonhang);
+            donHang = dAO.selectById(madonhang);
+
+            request.setAttribute("donHang", donHang);
+            request.setAttribute("khachHang", khachHang);
+            request.setAttribute("listOderDetails", listOderDetails);
+            request.getRequestDispatcher("/admin/orderdetails.jsp").forward(request, response);
+        } catch (Exception e) {
         }
     }
 }

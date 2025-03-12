@@ -19,12 +19,4 @@ public class Order {
     public void setList(List<Item> list) {
         this.list = list;
     }
-
-    
-    
-    
-    
-    
-    
-    
 }

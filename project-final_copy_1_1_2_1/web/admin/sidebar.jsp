@@ -30,7 +30,11 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>User</span></a>
     </li>
-
+    <li class="nav-item active">
+        <a class="nav-link" href="<%=request.getContextPath()%>/admin?hanhdong=order">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Order</span></a>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
 </ul>

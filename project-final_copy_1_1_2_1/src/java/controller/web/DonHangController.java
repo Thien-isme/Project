@@ -7,14 +7,10 @@ package controller.web;
 
 import database.ChiTietDonHangDAO;
 import database.DonHangDAO;
-import database.GioHangDAO;
 import database.KhachHang_MaGiamGiaDAO;
 import database.MaGiamGiaDAO;
-import database.OrderHistoryDAO;
 import database.SanPhamDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,12 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.ChiTietDonHang;
 import model.DonHang;
-import model.GioHang;
 import model.Item;
-import model.KhachHang;
 import model.MaGiamGia;
 import model.Order;
-import model.OrderHistory;
 import model.SanPham;
 import utils.Time;
 

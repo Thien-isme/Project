@@ -38,7 +38,6 @@
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
-                dfsdfsdf
                 <!-- Main Content -->
                 <div id="content">
 
@@ -53,14 +52,6 @@
                         <h1 class="h3 mb-2 text-gray-800">Tables</h1>
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <form action="${url}/admin" method="POST">
-                                    <input type="hidden" name="hanhdong" value="createuser">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-plus"></i> Add new user
-                                    </button>
-                                </form>
-                            </div>
 
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -71,73 +62,45 @@
                                                 <th>OrderID</th>
                                                 <th>OrderDate</th>
                                                 <th>Status</th>
-                                                <th>Paymethod</th>
                                                 <th>CustomerName</th>
                                                 <th>CustomerPhone</th>
                                                 <th>Email</th>
-                                                
-                                                
-
-
-
-                                               
-                                                <th>Paymethod</th>
-                                                <th>CustomerName</th>
-                                                <th>CustomerPhone</th>
-                                                <th colspan="2">Delivery address</th>
-                                                <th>Total</th>
-                                                
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Avatar</th>
-                                                <th>ID</th>
-                                                <th>User name</th>
-                                                <th>Pass word</th>
-                                                <th>Full name</th>
-                                                <th>Gender</th>
-                                                <th>Birthdate</th>
-                                                <th>Phone</th>
+                                                <th>OrderID</th>
+                                                <th>OrderDate</th>
+                                                <th>Status</th>
+                                                <th>CustomerName</th>
+                                                <th>CustomerPhone</th>
                                                 <th>Email</th>
-                                                <th>Country</th>
-                                                <th>Address</th>
-                                                <th>Delivery address</th>
-                                                <th>isAdmin</th>
-                                                <th></th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <c:forEach var="khachhang" items="${requestScope.userList}">
+                                            <c:forEach var="listDonHang" items="${requestScope.listDonHang}">
                                                 <tr>
-                                                    <td><img style="width: 30px; height: 30px; border-radius: 50%" src="${pageContext.request.contextPath}/uploads/${khachhang.hinhAvatar}"  alt=""></td>
-                                                    <td>${khachhang.maKhachHang}</td>
-                                                    <td>${khachhang.tenDangNhap}</td>
-                                                    <td>${khachhang.matKhau}</td>
-                                                    <td>${khachhang.hoVaTen}</td>
-                                                    <td>${khachhang.gioiTinh}</td>
-                                                    <td>${khachhang.ngaySinh}</td>
-                                                    <td>${khachhang.soDienThoai}</td>
-                                                    <td>${khachhang.email}</td>
-                                                    <td>${khachhang.quocTich}</td>
-                                                    <td>${khachhang.diaChiKhachHang}</td>
-                                                    <td>${khachhang.diaChiNhanHang}</td>
-                                                    <td>${khachhang.isAdmin}</td>
-                                                    <td>
+                                                    <td><a href="${url}/admin?hanhdong=orderDetails&madonhang=${listDonHang.madonhang}">${listDonHang.madonhang}</a></td>
+                                                    <td>${listDonHang.ngaydathang}</td>
+                                                    <td>${listDonHang.trangthaidonhang}</td>
+                                                    <td>${listDonHang.khachhang.hoVaTen}</td>
+                                                    <td>${listDonHang.khachhang.soDienThoai}</td>
+                                                    <td>${listDonHang.khachhang.email}</td>
+<!--                                                    <td>
                                                         <div class="d-inline-flex gap-2">
                                                             <form action="${url}/admin" method="POST" class="d-inline">
                                                                 <input type="hidden" name="hanhdong" value="edituser">
-                                                                <input type="hidden" name="maKhachHang" value="${khachhang.maKhachHang}">
+                                                                <input type="hidden" name="maKhachHang" value="">
                                                                 <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
                                                             </form>
 
                                                             <form action="${url}/admin" method="POST" class="d-inline">
                                                                 <input type="hidden" name="hanhdong" value="deleteuser">
-                                                                <input type="hidden" name="maKhachHang" value="${khachhang.maKhachHang}">
+                                                                <input type="hidden" name="maKhachHang" value="">
                                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                             </form>
                                                         </div>
-                                                    </td>
+                                                    </td>-->
                                                 </tr>
                                             </c:forEach>
                                         </tbody>

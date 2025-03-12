@@ -48,7 +48,7 @@ public class AuthorizationFilter implements Filter {
                     session.setAttribute("alert", "danger");
                     session.setAttribute("error", "Not permission");
                     response.sendRedirect(request.getContextPath() + "/khach-hang?hanhdong=login");
-                    
+
                 }
             } else {
                 session.setAttribute("alert", "danger");
