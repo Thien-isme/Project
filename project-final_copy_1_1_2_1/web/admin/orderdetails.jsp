@@ -70,7 +70,7 @@
             </table>
 
             <!-- Tổng tiền -->
-            <h3 class="text-end">Tổng: <span class="text-danger"> ${donHang.tongtien}VNĐ</span></h3>
+            <h3 class="text-end">Tổng: <span class="text-danger"> ${donHang.tongtien} VNĐ</span></h3>
 
             <!-- Nút Quay lại -->
          

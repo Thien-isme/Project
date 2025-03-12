@@ -75,7 +75,7 @@ public class SanPhamController extends HttpServlet {
             String sql = " SELECT distinct s.masanpham, tensanpham, hinhanhsanpham, mausac, c.categoryName as 'kieumau', giaban, giamgia \n"
                     + "from sanpham s inner join sanpham_size ss on s.masanpham=ss.masanpham join categories c on c.categoryID = s.categoryID";
 
-            sql += " where 1=1  ";
+            sql += " where 1=1 and ss.soluong >0  ";
 
 ////////////////////////////////////////////////////////////////////
 // Lọc theo loại mũ (Fullface, Half-Helmet, Three-Quarter)
