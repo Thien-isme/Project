@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author Admin
@@ -24,8 +22,15 @@ public class DonHang {
     private Double tienvanchuyen;
     private Double vat;
     private Double tongtien;
-    
-    
+    private KhachHang khachhang;
+
+    public KhachHang getKhachhang() {
+        return khachhang;
+    }
+
+    public void setKhachhang(KhachHang khachhang) {
+        this.khachhang = khachhang;
+    }
     
     public DonHang() {
     }
@@ -129,7 +134,4 @@ public class DonHang {
     public void setTongtien(Double tongtien) {
         this.tongtien = tongtien;
     }
-
-    
-
 }

@@ -151,4 +151,27 @@ public class DonHangDAO implements DAOInterface<DonHang> {
         return result;
 
     }
+    
+    public DonHang selectById(String madonhang) {
+        DonHang dh = null;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM donhang WHERE madonhang = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, madonhang);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                
+                dh = new DonHang();
+                dh.setMadonhang(rs.getString("madonhang"));
+                dh.setNgaydathang(rs.getString("ngaydathang"));
+                dh.setTrangthaidonhang(rs.getString("trangthaidonhang"));
+                dh.setTongtien(rs.getDouble("tongtien"));
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dh;
+    }
 }

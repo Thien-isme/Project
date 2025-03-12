@@ -5,6 +5,7 @@
  */
 package controller.web;
 
+import database.AdminDAO;
 import database.ChiTietDonHangDAO;
 import database.DonHangDAO;
 import database.GioHangDAO;
@@ -31,6 +32,7 @@ import model.Item;
 import model.KhachHang;
 import model.MaGiamGia;
 import model.Order;
+import model.OrderDetails;
 import model.OrderHistory;
 import model.SanPham;
 import utils.Time;
@@ -215,8 +217,25 @@ public class DonHangController extends HttpServlet {
                 session.setAttribute("order", order);
             }
 
-            request.setAttribute("madonhang", madonhang);
-            request.getRequestDispatcher("/GUI/index.jsp").forward(request, response);
+            
+            
+            List<OrderDetails> listOderDetails = new ArrayList<OrderDetails>();
+            KhachHang khachHang = new KhachHang();
+            DonHang donHang = new DonHang();
+
+            AdminDAO adao = new AdminDAO();
+            DonHangDAO dAO = new DonHangDAO();
+
+            listOderDetails = adao.selectOrderSanPham(madonhang);
+
+            khachHang = adao.selectKhachHangByOrderID(madonhang);
+            donHang = dAO.selectById(madonhang);
+
+            request.setAttribute("donHang", donHang);
+            request.setAttribute("khachHang", khachHang);
+            request.setAttribute("listOderDetails", listOderDetails);
+            
+            request.getRequestDispatcher("/khachhang/orderdetails.jsp").forward(request, response);
 
             //     }
         } catch (Exception e) {
